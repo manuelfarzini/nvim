@@ -37,16 +37,18 @@ return {
           request = "launch",
           program = function() return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file") end,
           cwd = "${workspaceFolder}",
-          stopOnEntry = true,
+          stopOnEntry = false,
           exitAfterTaskReturns = false,
         },
       }
       dap.configurations.c = dap.configurations.cpp
+      dap.configurations.odin = dap.configurations.cpp
       dap.configurations.rust = dap.configurations.cpp
       dap.configurations.zig = dap.configurations.cpp
 
       -- keymaps
-      vim.keymap.set("n", "<leader>b?", function() dapui.eval(nil, { enter = true, noremap = true, silent = true }) end)
+      vim.keymap.set("n", "<leader>b?", function() dapui.eval(nil, { enter = true, noremap = true, silent = true }) end,
+        { noremap = true, silent = true, desc = "Dap inspect" })
       vim.keymap.set(
         "n",
         "<leader><leader>b",

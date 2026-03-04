@@ -70,7 +70,13 @@ return {
       if comment_type == "slash_star" then
         local second_line = ""
         local second_line_content = vim.api.nvim_buf_get_lines(0, lnum, lnum + 1, false)
-        if second_line_content[1] then second_line = second_line_content[1]:gsub("^%s*%*%s?", "") end
+
+        if second_line_content[1] then
+          second_line = second_line_content[1]
+              :gsub("^%s*%*%s?", "")
+              :gsub("^%s+", "")
+        end
+
         table.insert(newVirtText, { " " .. second_line, "Comment" })
       end
 
