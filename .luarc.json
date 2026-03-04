@@ -1,0 +1,12 @@
+{
+  "diagnostics": {
+    "globals": ["vim", "end_row", "is_comment", "fold_cmments"]
+  },
+  "workspace": {
+    "ignoreDir": ["undodir", ".git"],
+    "useGitIgnore": true
+  },
+    "diagnostics.disable": [
+        "duplicate-set-field"
+    ]
+}

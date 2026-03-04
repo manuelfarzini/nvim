@@ -1,0 +1,250 @@
+return {
+  "neovim/nvim-lspconfig",
+  event = { "BufReadPre", "BufNewFile" },
+  dependencies = {
+    "mason.nvim",
+    "mason-lspconfig.nvim",
+    "hrsh7th/cmp-nvim-lsp",
+    { "antosha417/nvim-lsp-file-operations", config = true },
+    { "folke/neodev.nvim", opts = {} },
+  },
+
+  -- stylua: ignore start
+  config = function()
+
+    --- Autocompletion
+    local capabilities = vim.lsp.protocol.make_client_capabilities()
+    local ok, cmp_lsp = pcall(require, "cmp_nvim_lsp")
+    if ok then
+      capabilities = cmp_lsp.default_capabilities(capabilities)
+    end
+
+    --- Attach Function
+    vim.api.nvim_create_autocmd("LspAttach", {
+      group = vim.api.nvim_create_augroup("PersLspConfig", {}),
+      callback = function(ev)
+
+        --- Disable semantic tokens
+        local client = vim.lsp.get_client_by_id(ev.data.client_id)
+        local disabled = {
+          ["zls"] = true,
+        }
+        if disabled[client.name] then client.server_capabilities.semanticTokensProvider = nil end
+
+        --- Diagnostics format
+        vim.diagnostic.config({
+          float = {
+            border = "rounded",
+            source = true,
+            header = "",
+            max_width = 100,
+            wrap = true,
+            severity_sort = true,
+            format = function(diagnostic)
+              local code = diagnostic.code or ""
+              diagnostic.code = nil
+              return string.format("%s [%s]\n", diagnostic.message, code)
+            end,
+          },
+        })
+
+        --- Keymaps
+        local opts = { buffer = ev.buf, silent = true }
+        opts.desc = "Go to declaration"
+        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+        opts.desc = "Show LSP definitions"
+        vim.keymap.set("n", "gd", "<Cmd>Telescope lsp_definitions<CR>", opts)
+        opts.desc = "Show LSP references"
+        vim.keymap.set("n", "gR", "<Cmd>Telescope lsp_references<CR>", opts)
+        opts.desc = "Show LSP type definitions"
+        vim.keymap.set("n", "gt", "<Cmd>Telescope lsp_type_definitions<CR>", opts)
+        opts.desc = "Show buffer diaghostics"
+        vim.keymap.set("n", "<leader>D", "<Cmd>Telescope diagnostics bufnr=0<CR>", opts)
+        opts.desc = "Previous diagnostic"
+        vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, opts)
+        opts.desc = "Next diagnostic"
+        vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, opts)
+        opts.desc = "Restart LSP"
+        vim.keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts)
+        opts.desc = "Show diagnostic under cursor"
+        vim.keymap.set("n", "<leader>d", function() vim.diagnostic.open_float(nil, {}) end, opts)
+        --
+      end,
+    })
+
+    --- Signs
+    local signs = { Error = "✕", Warn = "!", Hint = "?", Info = "i" }
+    for type, icon in pairs(signs) do
+      local hl = "DiagnosticSign" .. type
+      vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+    end
+
+    --- Global
+    vim.lsp.config("*", {
+      capabilities = capabilities,
+    })
+
+    --- Mojo
+    vim.lsp.config("mojo", {
+      -- If you start Neovim inside the pixi env, this is enough:
+      cmd = { "mojo-lsp-server" },
+
+      filetypes = { "mojo" },
+
+      -- Pixi projects have pixi.toml; fallback to .git for “any git repo”.
+      root_markers = { "pixi.toml", ".git" },
+    })
+
+    --- clangd
+    vim.lsp.config("clangd", {
+      -- stylua: ignore start
+      cmd = {
+        "clangd", "-j=12", "--clang-tidy", "--enable-config", "--background-index", "--completion-style=detailed",
+        "--cross-file-rename", "--pch-storage=memory", "--header-insertion-decorators", "--all-scopes-completion",
+        "--query-driver=/Library/Developer/CommandLineTools/usr/bin/*", "--header-insertion=iwyu", "--log=verbose",
+        "--compile-commands-dir=build", "--suggest-missing-includes", "--function-arg-placeholders", "--pretty",
+      },
+      -- stylua: ignore end
+      init_options = {
+        clangdFileStatus = true,
+        usePlaceholders = true,
+        completeUnimported = true,
+      },
+      filetypes = { "c", "h", "cc", "cpp", "c++", "hh", "hpp", "objc", "objcpp", "cppm", "ino" },
+      settings = {
+        inlayHints = {
+          parameterHints = true,
+          typeHints = true,
+        },
+        clangd = {
+          format = {
+            enable = true,
+            style = "file",
+          },
+        },
+      },
+    })
+
+    vim.lsp.config("lua_ls", {
+      settings = {
+        Lua = {
+          runtime = { version = "LuaJIT" },
+          diagnostics = { globals = { "vim" } },
+          workspace = { checkThirdParty = false },
+          telemetry = { enable = false },
+          completion = { callSnippet = "Replace" },
+        },
+      },
+    })
+
+    -- --- ltex
+    -- vim.lsp.config("ltex", {
+    --   filetypes = { "markdown", "tex", "text" },
+    --   settings = {
+    --     ltex = {
+    --       language = "en-US",
+    --       checkFrequency = "manual",
+    --       enabledRules = {},
+    --       disabledRules = { "SPELLING" },
+    --     },
+    --   },
+    -- })
+
+    --- pyright
+    vim.lsp.config("pyright", {
+      settings = {
+        python = {
+          analysis = {
+            typeCheckingMode = "off",
+            autoSearchPaths = true,
+            diagnosticMode = "openFilesOnly",
+          },
+        },
+      },
+    })
+
+    --- zls
+    vim.lsp.config("zls", {
+      settings = {
+        zsl = {
+          warn_style = true,
+          enable_snippets = true,
+          enable_inlay_hints = true,
+        },
+      },
+    })
+
+    --- jdtls
+    vim.lsp.config("jdtls", {
+      filetypes = { "java" },
+      handlers = {
+        ["textDocument/publishDiagnostics"] = function(_, result, ctx, config)
+          if not result then return end
+          result.diagnostics = vim.tbl_filter(
+            function(d)
+              return not d.message:match("TODO") and not d.message:match("FIXME") and not d.message:match("XXX")
+            end,
+            result.diagnostics
+          )
+          vim.lsp.diagnostic.on_publish_diagnostics(_, result, ctx, config)
+        end,
+      },
+    })
+
+    --- go
+    vim.lsp.config("gopls", {
+      cmd = { "gopls" },
+      filetypes = { "go", "gomod", "gowork", "gotmpl" },
+    })
+
+    --- bashls
+    vim.lsp.config("bashls", {
+      filetypes = { "sh" },
+    })
+
+    --- matlab
+    vim.lsp.config("matlab_ls", {
+      filetypes = { "m", "matlab" },
+      root_dir = function() return vim.fn.getcwd() end,
+    })
+
+    vim.lsp.config("emmet_ls", {
+      -- stylua: ignore start
+      filetypes = {
+        "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte",
+      },
+      -- stylua: ignore end
+    })
+
+    --- php
+    vim.lsp.config("intelephense", {
+      settings = {
+        intelephense = {
+          -- stylua: ignore start
+          stubs = {
+            "bcmath", "bz2", "calendar", "Core", "ctype", "curl", "date", "dom", "fileinfo",
+            "filter", "gd", "gettext", "hash", "iconv", "json", "libxml", "mbstring", "mysqli",
+            "pcre",  "PDO",  "pdo_mysql",  "Phar",  "readline",  "Reflection",  "session",
+            "SimpleXML",  "soap", "sockets", "SPL", "standard", "tokenizer", "xml", "xmlreader",
+            "xmlwriter", "zip", "zlib",
+          },
+          -- stylua: ignore end
+          diagnostics = { enable = true },
+          completion = {
+            fullyQualifyGlobalConstantsAndFunctions = true,
+            triggerParameterHints = true,
+          },
+          files = { maxSize = 5000000 },
+        },
+      },
+    })
+
+    --- enable
+    -- stylua: ignore start
+    vim.lsp.enable({
+      "clangd", "lua_ls", "ols", "zls", "pyright", "jdtls", "gopls", "bashls", "matlab_ls",
+      "emmet_ls", "intelephense", "mojo"
+    })
+    --stylua :ignore end
+  end,
+}

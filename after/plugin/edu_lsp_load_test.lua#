@@ -1,0 +1,17 @@
+---@diagnostic disable-next-line: missing-fields
+local client = vim.lsp.start_client({
+  name = "edu-lsp",
+  cmd = { "/Users/manuelfarzini/Personal/learn/dev/proj/edu-lsp/main" },
+})
+
+if not client then
+  vim.notify("err: start client")
+  return
+end
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function()
+    vim.lsp.buf_attach_client(0, client)
+  end,
+})
