@@ -84,15 +84,23 @@ return {
       capabilities = capabilities,
     })
 
-    --- Mojo
+    --- mojo-lsp
     vim.lsp.config("mojo", {
-      -- If you start Neovim inside the pixi env, this is enough:
-      cmd = { "mojo-lsp-server" },
-
+      cmd = { "mojo-lsp-server" }, -- enough with pixi shell
+      root_markers = { "pixi.toml", ".git" }, -- pixi
       filetypes = { "mojo" },
+    })
 
-      -- Pixi projects have pixi.toml; fallback to .git for “any git repo”.
-      root_markers = { "pixi.toml", ".git" },
+    --- faust-lsp
+    vim.lsp.config("faustlsp", {
+      cmd  = { "faustlsp" },
+      filetypes = { "faust" },
+      workspace_required = true,
+      root_markers = { ".faustcfg.json" },
+      -- root_dir = function(fname)
+      --   local util = require("lspconfig.util")
+      --   return util.root_pattern(".git")(fname) or vim.fn.getcwd()
+      -- end,
     })
 
     --- clangd
@@ -125,6 +133,7 @@ return {
       },
     })
 
+    --- luals
     vim.lsp.config("lua_ls", {
       settings = {
         Lua = {
@@ -178,15 +187,14 @@ return {
     vim.lsp.config("jdtls", {
       filetypes = { "java" },
       handlers = {
-        ["textDocument/publishDiagnostics"] = function(_, result, ctx, config)
+        ["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
           if not result then return end
-          result.diagnostics = vim.tbl_filter(
-            function(d)
-              return not d.message:match("TODO") and not d.message:match("FIXME") and not d.message:match("XXX")
-            end,
-            result.diagnostics
-          )
-          vim.lsp.diagnostic.on_publish_diagnostics(_, result, ctx, config)
+          result.diagnostics = vim.tbl_filter(function(d)
+            return not d.message:match("TODO")
+                and not d.message:match("FIXME")
+                and not d.message:match("XXX")
+          end, result.diagnostics)
+          return vim.lsp.handlers["textDocument/publishDiagnostics"](err, result, ctx, config)
         end,
       },
     })
@@ -224,8 +232,8 @@ return {
           stubs = {
             "bcmath", "bz2", "calendar", "Core", "ctype", "curl", "date", "dom", "fileinfo",
             "filter", "gd", "gettext", "hash", "iconv", "json", "libxml", "mbstring", "mysqli",
-            "pcre",  "PDO",  "pdo_mysql",  "Phar",  "readline",  "Reflection",  "session",
-            "SimpleXML",  "soap", "sockets", "SPL", "standard", "tokenizer", "xml", "xmlreader",
+            "pcre", "PDO", "pdo_mysql", "Phar", "readline", "Reflection", "session",
+            "SimpleXML", "soap", "sockets", "SPL", "standard", "tokenizer", "xml", "xmlreader",
             "xmlwriter", "zip", "zlib",
           },
           -- stylua: ignore end
@@ -243,7 +251,7 @@ return {
     -- stylua: ignore start
     vim.lsp.enable({
       "clangd", "lua_ls", "ols", "zls", "pyright", "jdtls", "gopls", "bashls", "matlab_ls",
-      "emmet_ls", "intelephense", "mojo"
+      "emmet_ls", "intelephense", "faustlsp", "mojo"
     })
     --stylua :ignore end
   end,

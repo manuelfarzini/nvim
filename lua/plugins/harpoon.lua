@@ -11,70 +11,22 @@ return {
 
     ----- Telescope ------------
 
-    local tele_config = require("telescope.config").values
-    local tele_pickers = require("telescope.pickers")
-    local tele_finders = require("telescope.finders")
-    local tele_state = require("telescope.actions.state")
-
-    local function toggle_telescope(hlist)
-
-      local function make_results()
-        local results = {}
-        for i, item in ipairs(hlist.items) do
-          if item and item.value and item.value ~= "" then
-            table.insert(results, { idx = i, path = item.value })
-          end
-        end
-        return results
-      end
-
-      tele_pickers.new({}, {
-        prompt_title = "Harpoon",
-        finder = tele_finders.new_table({
-          results = make_results(),
-          entry_maker = function(e)
-            return {
-              value = e,
-              ordinal = e.path,
-              display = e.path,
-              path = e.path,
-            }
-          end,
-        }),
-        previewer = tele_config.file_previewer({}),
-        sorter = tele_config.generic_sorter({}),
-
-        attach_mappings = function(prompt_bufnr, map)
-          local function refresh()
-            local picker = tele_state.get_current_picker(prompt_bufnr)
-            picker:refresh(
-              tele_finders.new_table({
-                results = make_results(),
-                entry_maker = function(e)
-                  return {
-                    value = e,
-                    ordinal = e.path,
-                    display = e.path,
-                    path = e.path,
-                  }
-                end,
-              }),
-              { reset_prompt = false }
-            )
-          end
-
-          map({ "i", "n" }, "<M-c>", function()
-            local sel = tele_state.get_selected_entry()
-            if sel and sel.value and sel.value.idx then
-              hlist:remove_at(sel.value.idx)
-              refresh()
-            end
-          end)
-
-          return true
-        end,
-      }):find()
-    end
+    -- local tele_config = require("telescope.config").values
+    -- local function toggle_telescope(harp_files)
+    --     local file_paths = {}
+    --     for _, item in ipairs(harp_files.items) do
+    --         table.insert(file_paths, item.value)
+    --     end
+    --
+    --     require("telescope.pickers").new({}, {
+    --         prompt_title = "Harpoon",
+    --         finder = require("telescope.finders").new_table({
+    --             results = file_paths,
+    --         }),
+    --         previewer = tele_config.file_previewer({}),
+    --         sorter = tele_config.generic_sorter({}),
+    --     }):find()
+    -- end
 
     ----- Keymaps --------------
 
@@ -86,6 +38,15 @@ return {
     vim.keymap.set("n", "<leader>5", function() harpoon:list():select(5) end, { desc = "Harpoon 5" })
     vim.keymap.set("n", "<leader>hp", function() harpoon:list():prev() end, { desc = "Harpoon prev" })
     vim.keymap.set("n", "<leader>hn", function() harpoon:list():next() end, { desc = "Harpoon next" })
-    vim.keymap.set("n", "<leader>ht", function() toggle_telescope(harpoon:list()) end, { desc = "Harpoon toggle" })
+    -- vim.keymap.set("n", "<leader>ht", function() toggle_telescope(harpoon:list()) end, { desc = "Harpoon toggle" })
+
+    vim.keymap.set("n", "<leader>hq", function()
+      harpoon.ui:toggle_quick_menu(harpoon:list(), {
+        border = "rounded",
+        title_pos = "center",
+        title = " Harpoon ",
+        ui_width_ratio = 0.30,
+      })
+    end, { desc = "Harpoon quick menu" })
   end,
 }
