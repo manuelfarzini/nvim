@@ -10,7 +10,7 @@ return {
       "williamboman/mason.nvim",
     },
 
-    ---- Setup
+    ---e Setup
 
     config = function()
       local dap = require("dap")
@@ -34,7 +34,7 @@ return {
               { id = "breakpoints", size = 0.15 },
             },
             position = "left",
-            size = 75,
+            size = 0.30,
           },
           {
             elements = {
@@ -42,10 +42,20 @@ return {
               { id = "console", size = 0.50 },
             },
             position = "bottom",
-            size = 12,
+            size = 0.30,
           },
         },
       })
+
+      -- -- toggle resize
+      -- vim.api.nvim_create_autocmd("VimResized", {
+      --   callback = function()
+      --     dapui.close()
+      --     dapui.open({ reset = true })
+      --   end,
+      -- })
+
+      ---- Window options: wrap and indent long lines
 
       do
         local group = vim.api.nvim_create_augroup("DapUiWindowOptions", { clear = true })
@@ -121,6 +131,10 @@ return {
             return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
           end,
           cwd = "${workspaceFolder}",
+          args = function()
+            local args = vim.fn.input("Program args: ")
+            return vim.split(args, " ")
+          end,
           stopOnEntry = true,
           exitAfterTaskReturns = false,
         },
