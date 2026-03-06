@@ -199,6 +199,7 @@ function M.setup()
     -- =============== treesitter ======= --
     -- common
     ["@attribute"] = { link = "Attribute" },
+    ["@constant"] = { link = "Variable" },
     ["@constant.macro"] = { link = "Macro" },
     ["@constant.builtin"] = { link = "Constant" },
     ["@variable"] = { link = "Variable" },
@@ -234,6 +235,7 @@ function M.setup()
     ["@markup.math.latex"] = { fg = colors.grey1 },
     -- c++
     ["@keyword.noexce.cpp"] = { fg = colors.keyword },
+    -- mojo
 
     -- =============== Semantic ========= --
     -- common
