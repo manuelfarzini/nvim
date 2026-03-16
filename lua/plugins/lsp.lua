@@ -9,7 +9,7 @@ return {
     { "folke/neodev.nvim", opts = {} },
   },
 
-  -- stylua: ignore start
+    -- stylua: ignore start
   config = function()
 
     --- Autocompletion
@@ -86,7 +86,7 @@ return {
 
     --- mojo-lsp
     vim.lsp.config("mojo", {
-      cmd = { "mojo-lsp-server" }, -- enough with pixi shell
+      cmd = { "mojo-lsp-server", "-I", "." }, -- enough with pixi shell
       root_markers = { "pixi.toml", ".git" }, -- pixi
       filetypes = { "mojo" },
     })

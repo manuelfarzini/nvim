@@ -6,6 +6,14 @@ return {
     local opt = { noremap = true, silent = true, desc = "" }
 
     conform.setup({
+      -- actually the mojo formatter is not working
+      formatters = {
+        mojo = {
+          command = "mojo",
+          args = { "format", "-" },
+          stdin = true,
+        },
+      },
       formatters_by_ft = {
         html = { "prettier" },
         json = { "prettier" },
@@ -31,6 +39,8 @@ return {
         c3 = { "clang-format" },
         ino = { "clang-format" },
         java = { "clang-format" },
+
+        mojo = { "mojo" },
 
         ["_"] = { "trim_whitespace" },
       },
