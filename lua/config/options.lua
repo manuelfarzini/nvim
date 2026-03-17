@@ -67,7 +67,7 @@ set_indent("css", 2, 2)
 set_indent("c3", 4, 4)
 set_indent("py", 2, 2)
 set_indent("scm", 2, 2)
-set_indent("mojo", 2, 2)
+set_indent("mojo", 4, 4)
 set_indent("scm", 2, 2)
 --
 

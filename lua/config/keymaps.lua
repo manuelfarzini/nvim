@@ -9,8 +9,8 @@ vim.keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "No highlight" })
 vim.keymap.set("n", "U", "<C-r>", { desc = "Redo" })
 
 --- Center scroll
-vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Jump down half page" })
-vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Jump up half page" })
+vim.keymap.set("n", "<C-j>", "<C-d>zz", { desc = "Jump down half page" })
+vim.keymap.set("n", "<C-k>", "<C-u>zz", { desc = "Jump up half page" })
 
 --- Select
 vim.keymap.set("n", "gp", "`[v`]", { noremap = true, desc = "Select last pasted" })
@@ -41,15 +41,15 @@ vim.keymap.set("n", "<leader>sh", ":split<CR>", { desc = "Split horizzontally" }
 vim.keymap.set("n", "<leader>sv", ":vsplit<CR>", { desc = "Split vertically" })
 
 --- Move cursor trough splits
-vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Move to split above" })
-vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Move to split below" })
+-- vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Move to split above" })
+-- vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Move to split below" })
 vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Move to left split" })
 vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Move to right split" })
 
 --- Resize splits
-vim.keymap.set("n", "<M-S-k>", ":resize +2<CR>", { desc = "Resize up" })
-vim.keymap.set("n", "<M-S-j>", ":resize -2<CR>", { desc = "Resize down" })
 vim.keymap.set("n", "<M-S-h>", ":vertical resize -2<CR>", { desc = "Resize left" })
+vim.keymap.set("n", "<M-S-j>", ":resize -2<CR>", { desc = "Resize down" })
+vim.keymap.set("n", "<M-S-k>", ":resize +2<CR>", { desc = "Resize up" })
 vim.keymap.set("n", "<M-S-l>", ":vertical resize +2<CR>", { desc = "Resize right" })
 vim.keymap.set("n", "<M-e>", "<C-w>=", { desc = "Equalize split sizes" })
 
