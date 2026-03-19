@@ -245,6 +245,7 @@ function M.setup()
     ["@keyword.mojo"] = { fg = colors.keyword },
     ["@constant.mojo"] = { fg = colors.param },
 
+
     -- =============== Semantic ========= --
     -- common
     ["@lsp.type.macro"] = { link = "Macro" },
