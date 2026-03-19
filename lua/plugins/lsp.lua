@@ -105,32 +105,30 @@ return {
 
     --- clangd
     vim.lsp.config("clangd", {
-      -- stylua: ignore start
       cmd = {
-        "clangd", "-j=12", "--clang-tidy", "--enable-config", "--background-index", "--completion-style=detailed",
-        "--cross-file-rename", "--pch-storage=memory", "--header-insertion-decorators", "--all-scopes-completion",
-        "--query-driver=/Library/Developer/CommandLineTools/usr/bin/*", "--header-insertion=iwyu", "--log=verbose",
-        "--compile-commands-dir=build", "--suggest-missing-includes", "--function-arg-placeholders", "--pretty",
+        "clangd",
+        "-j=12",
+        "--pretty",
+        "--header-insertion=iwyu",
+        "--completion-style=detailed",
+        "--pch-storage=memory",
+        "--function-arg-placeholders",
+        -- XXX: should set the query driver into the .clangd file within the proj?
+        -- "--query-driver= /opt/homebrew/opt/llvm/bin/*",
+        "--query-driver=/Library/Developer/CommandLineTools/usr/bin/*",
       },
-      -- stylua: ignore end
+      filetypes = { "c", "cpp", "objc", "objcpp" },
+      root_markers = { ".clangd", ".clang-format", "compile_commands.json", ".git", },
       init_options = {
         clangdFileStatus = true,
         usePlaceholders = true,
         completeUnimported = true,
       },
-      filetypes = { "c", "h", "cc", "cpp", "c++", "hh", "hpp", "objc", "objcpp", "cppm", "ino" },
-      settings = {
-        inlayHints = {
-          parameterHints = true,
-          typeHints = true,
-        },
-        clangd = {
-          format = {
-            enable = true,
-            style = "file",
-          },
-        },
-      },
+      on_attach = function(client, bufnr)
+        if client.supports_method("textDocument/inlayHint") then
+          vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+        end
+      end,
     })
 
     --- luals
@@ -249,9 +247,9 @@ return {
 
     --- enable
     -- stylua: ignore start
-    vim.lsp.enable({
-      "clangd", "lua_ls", "ols", "zls", "pyright", "jdtls", "gopls", "bashls", "matlab_ls",
-      "emmet_ls", "intelephense", "faustlsp", "mojo"
+    vim.lsp.enable({ "clangd", "ols", "lua_ls", "faustlps", "mojo"
+      -- "clangd", "lua_ls", "ols", "zls", "pyright", "jdtls", "gopls", "bashls", "matlab_ls",
+      -- "emmet_ls", "intelephense", "faustlsp", "mojo"
     })
     --stylua :ignore end
   end,

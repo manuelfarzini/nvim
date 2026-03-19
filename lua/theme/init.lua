@@ -29,11 +29,11 @@ function M.setup()
     note     = "#8d9a0c",
     error    = "#931514",
     warn     = "#c27070",
-    tparam   = "#505a8f",
+    param   = "#505a8f",
     -- warn     = "#8d9a0c",
     -- error    = "#464ea3",
     -- warn     = "#7ea8cf",
-    -- tparam   = "#9c655b",
+    -- param   = "#9c655b",
     --
 
     --
@@ -210,7 +210,7 @@ function M.setup()
     ["@constant.builtin"] = { link = "Constant" },
     ["@variable"] = { link = "Variable" },
     ["@variable.builtin"] = { link = "Constant" },
-    -- ["@variable.template"] = { fg = colors.tparam },
+    -- ["@variable.template"] = { fg = colors.param },
     -- ["@variable.parameter"] = { link = "@variable.priority" },
     -- ["@variable.priority"] = { link = "Variable" },
     ["@keyword"] = { link = "Type" },
@@ -242,6 +242,8 @@ function M.setup()
     -- c++
     ["@keyword.noexce.cpp"] = { fg = colors.keyword },
     -- mojo
+    ["@keyword.mojo"] = { fg = colors.keyword },
+    ["@constant.mojo"] = { fg = colors.param },
 
     -- =============== Semantic ========= --
     -- common
@@ -252,7 +254,7 @@ function M.setup()
     -- use {} to highlight all pp #if branches and do not dim them
     ["@lsp.type.comment.cpp"] = {},
     -- ["@lsp.type.comment.cpp"] = { fg = colors.grey4 },
-    ["@lsp.type.typeParameter.cpp"] = { fg = colors.tparam },
+    ["@lsp.type.typeParameter.cpp"] = { fg = colors.param },
 
     -- markup
     ["@markup.heading.1"] = { fg = colors.green1, bold = true },

@@ -16,6 +16,7 @@ vim.opt.list = false
 vim.opt.scrolloff = 8
 vim.opt.showmode = false
 vim.opt.inccommand = "split"
+vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
 --
 
 --- Visual settings

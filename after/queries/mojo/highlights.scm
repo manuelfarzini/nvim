@@ -23,10 +23,12 @@
 ; Identifier naming conventions
 
 ((identifier) @type
- (#match? @type "^[A-Z]"))
+ (#match? @type "^[A-Z]")
+ (#set! priority 101))
 
 ((identifier) @constant
- (#match? @constant "^_*[A-Z][A-Z\\d_]*$"))
+ (#match? @constant "^_*[A-Z][A-Z\\d_]*$")
+ (#set! priority 99))
 
 ; Builtin functions
 
