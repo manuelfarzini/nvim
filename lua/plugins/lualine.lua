@@ -6,10 +6,12 @@ return {
     local lualine = require("lualine")
     local lazy_status = require("lazy.status")
 
+    local fore  = "#1a1a13"
     local grey4 = "#dedecc"
-    local error = "#464ea3"
-    local warn  = "#7ea8cf"
-    local fore  = "#26261c"
+    local error = "#931514"
+    local warn  = "#c27070"
+    -- local warn  = "#7ea8cf"
+    -- local error = "#464ea3"
 
     -- Defining custom theme
     local lualine_theme = {
