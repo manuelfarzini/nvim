@@ -3,7 +3,6 @@
 (attribute attribute: (identifier) @property)
 (type (identifier) @type)
 
-
 ; Function calls
 
 (decorator) @function
@@ -23,12 +22,23 @@
 ; Identifier naming conventions
 
 ((identifier) @type
- (#match? @type "^[A-Z]")
+ (#match? @type "^[A-Z][A-Za-z0-9_]*$")
+ (#set! priority 100))
+
+((identifier) @type
+ (#any-of? @type "c_int" "c_uint" "c_long" "c_ulong" "c_float" "c_double")
  (#set! priority 101))
 
 ((identifier) @constant
- (#match? @constant "^_*[A-Z][A-Z\\d_]*$")
- (#set! priority 99))
+ (#match? @constant "^_*[A-Z][A-Z0-9_]*$")
+ (#not-any-of? @constant
+   "U8" "U16" "U32" "U64"
+   "I8" "I16" "I32" "I64"
+   "F32" "F64")
+ (#set! priority 101))
+
+((argument_convention) @keyword
+ (#set! priority 100))
 
 ; Builtin functions
 

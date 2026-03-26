@@ -29,7 +29,7 @@ function M.setup()
     note     = "#8d9a0c",
     error    = "#931514",
     warn     = "#c27070",
-    param   = "#505a8f",
+    param   = "#3b457b",
     -- warn     = "#8d9a0c",
     -- error    = "#464ea3",
     -- warn     = "#7ea8cf",
@@ -179,6 +179,7 @@ function M.setup()
     Special = { fg = colors.value3 },
     SpecialChar = { fg = colors.value3 },
     Keyword = { fg = colors.keyword },
+    -- Keyword = { fg = colors.fore, italic = true },
     Qualifier = { fg = colors.type },
     Constant = { fg = colors.value3 },
     Attribute = { fg = colors.grey3 },
@@ -243,7 +244,7 @@ function M.setup()
     ["@keyword.noexce.cpp"] = { fg = colors.keyword },
     -- mojo
     ["@keyword.mojo"] = { fg = colors.keyword },
-    ["@constant.mojo"] = { fg = colors.param },
+    ["@constant.mojo"] = { fg = colors.fore },
 
 
     --===-- Semantic
