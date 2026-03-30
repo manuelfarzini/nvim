@@ -25,20 +25,40 @@ return {
         },
       })
 
-      ---@diagnostic disable-next-line: missing-fields
-      require("mason-lspconfig").setup({ -- servers
-        ensure_installed = {
-          "lua_ls", "clangd", "gopls", "zls", "ols", "pyright", "matlab_ls", "jdtls", "html",
-          "cssls", "bashls", "graphql", "emmet_ls", "prismals", "intelephense",
-        },
-        automatic_installation = true,
-        automatic_setup = false,
-      })
+  ---@diagnostic disable-next-line: missing-fields
+  require("mason-lspconfig").setup({
+    ensure_installed = {
+      "clangd",
+      "bashls",
+      "lua_ls",
+      "ols",
+      "gopls",
+      "zls",
+      "matlab_ls",
+      "jdtls",
+      "pyright",
+      -- "html",
+      -- "cssls",
+      -- "intelephense",
+      -- "graphql",
+    },
+    automatic_installation = true,
+    automatic_setup = false,
+  })
 
-      require("mason-tool-installer").setup({ -- formatters, daps, linters
+      require("mason-tool-installer").setup({
         ensure_installed = {
-          "prettier", "stylua", "isort", "eslint_d", "markdownlint", "shfmt",
-          "codelldb", "phpcbf",
+          -- fmt
+          "prettier",
+          "stylua",
+          "isort", -- python
+          "shfmt",
+          "phpcbf",
+          -- lint
+          "eslint_d", -- js ts
+          -- "markdownlint",
+          -- debug
+          "codelldb",
         },
         auto_update = true,
         run_on_start = true,

@@ -65,7 +65,7 @@ return {
         opts.desc = "Next diagnostic"
         vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, opts)
         opts.desc = "Restart LSP"
-        vim.keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts)
+        vim.keymap.set("n", "<leader>lr", ":LspRestart<CR>", opts)
         opts.desc = "Show diagnostic under cursor"
         vim.keymap.set("n", "<leader>d", function() vim.diagnostic.open_float(nil, {}) end, opts)
         --
