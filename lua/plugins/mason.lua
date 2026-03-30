@@ -48,17 +48,17 @@ return {
 
       require("mason-tool-installer").setup({
         ensure_installed = {
-          -- fmt
-          "prettier",
-          "stylua",
-          "isort", -- python
-          "shfmt",
-          "phpcbf",
-          -- lint
-          "eslint_d", -- js ts
-          -- "markdownlint",
           -- debug
           "codelldb",
+          -- fmt
+          "isort",
+          "markdownlint",
+          "phpcbf",
+          "prettier",
+          "stylua",
+          "shfmt",
+          -- lint
+          -- "eslint_d",
         },
         auto_update = true,
         run_on_start = true,
