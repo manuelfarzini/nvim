@@ -9,29 +9,24 @@ return {
     { "folke/neodev.nvim", opts = {} },
   },
 
-    -- stylua: ignore start
   config = function()
-
-    --- Autocompletion
+    --+ Autocompletion
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     local ok, cmp_lsp = pcall(require, "cmp_nvim_lsp")
-    if ok then
-      capabilities = cmp_lsp.default_capabilities(capabilities)
-    end
+    if ok then capabilities = cmp_lsp.default_capabilities(capabilities) end
 
-    --- Attach Function
+    --+ Attach Function
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("PersLspConfig", {}),
       callback = function(ev)
-
-        --- Disable semantic tokens
+        -- Disable semantic tokens
         local client = vim.lsp.get_client_by_id(ev.data.client_id)
         local disabled = {
           ["zls"] = true,
         }
-        if disabled[client.name] then client.server_capabilities.semanticTokensProvider = nil end
+    if disabled[client.name] then client.server_capabilities.semanticTokensProvider = nil end
 
-        --- Diagnostics format
+        --+ Diagnostics format
         vim.diagnostic.config({
           float = {
             border = "rounded",
@@ -48,52 +43,77 @@ return {
           },
         })
 
-        --- Keymaps
+        --+ Keymaps
+        -- TODO: see init.lua/lua/theprimeagen/init.lua
         local opts = { buffer = ev.buf, silent = true }
+
         opts.desc = "Go to declaration"
         vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+
         opts.desc = "Show LSP definitions"
         vim.keymap.set("n", "gd", "<Cmd>Telescope lsp_definitions<CR>", opts)
+
         opts.desc = "Show LSP references"
         vim.keymap.set("n", "gR", "<Cmd>Telescope lsp_references<CR>", opts)
+
         opts.desc = "Show LSP type definitions"
         vim.keymap.set("n", "gt", "<Cmd>Telescope lsp_type_definitions<CR>", opts)
+
         opts.desc = "Show buffer diaghostics"
         vim.keymap.set("n", "<leader>D", "<Cmd>Telescope diagnostics bufnr=0<CR>", opts)
+
         opts.desc = "Previous diagnostic"
         vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, opts)
+
         opts.desc = "Next diagnostic"
         vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, opts)
+
         opts.desc = "Restart LSP"
-        vim.keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts)
+        vim.keymap.set("n", "<leader>lr", ":LspRestart<CR>", opts)
+
         opts.desc = "Show diagnostic under cursor"
         vim.keymap.set("n", "<leader>d", function() vim.diagnostic.open_float(nil, {}) end, opts)
-        --
       end,
     })
 
-    --- Signs
+    --+ signs
     local signs = { Error = "✕", Warn = "!", Hint = "?", Info = "i" }
     for type, icon in pairs(signs) do
       local hl = "DiagnosticSign" .. type
       vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
     end
 
-    --- Global
+    --+ global
     vim.lsp.config("*", {
       capabilities = capabilities,
     })
 
-    --- mojo-lsp
+    --+ mojo-lsp
     vim.lsp.config("mojo", {
       cmd = { "mojo-lsp-server", "-I", "." }, -- enough with pixi shell
       root_markers = { "pixi.toml", ".git" }, -- pixi
       filetypes = { "mojo" },
     })
 
-    --- faust-lsp
+    --+ rust analyzer
+    -- vim.lsp.config("rust_analyzer", {
+    --   filetypes = { "rust" },
+    --   settings = {
+    --     ["rust-analyzer"] = {
+    --       checkOnSave = true,
+    --       check = {
+    --         command = "check",
+    --       },
+    --       cargo = {
+    --         allFeatures = true,
+    --       },
+    --     },
+    --   },
+    -- })
+
+    --+ faust-lsp
     vim.lsp.config("faustlsp", {
-      cmd  = { "faustlsp" },
+      cmd = { "faustlsp" },
       filetypes = { "faust" },
       workspace_required = true,
       root_markers = { ".faustcfg.json" },
@@ -103,7 +123,7 @@ return {
       -- end,
     })
 
-    --- clangd
+    --+ clangd
     vim.lsp.config("clangd", {
       cmd = {
         "clangd",
@@ -112,13 +132,9 @@ return {
         "--header-insertion=iwyu",
         "--completion-style=detailed",
         "--pch-storage=memory",
-        "--function-arg-placeholders",
-        -- XXX: should set the query driver into the .clangd file within the proj?
-        -- "--query-driver= /opt/homebrew/opt/llvm/bin/*",
-        "--query-driver=/Library/Developer/CommandLineTools/usr/bin/*",
       },
       filetypes = { "c", "cpp", "objc", "objcpp" },
-      root_markers = { ".clangd", ".clang-format", "compile_commands.json", ".git", },
+      root_markers = { ".clangd", ".clang-format", "compile_commands.json", ".git" },
       init_options = {
         clangdFileStatus = true,
         usePlaceholders = true,
@@ -131,7 +147,7 @@ return {
       end,
     })
 
-    --- luals
+    --+ luals
     vim.lsp.config("lua_ls", {
       settings = {
         Lua = {
@@ -144,7 +160,7 @@ return {
       },
     })
 
-    -- --- ltex
+    -- --+ ltex
     -- vim.lsp.config("ltex", {
     --   filetypes = { "markdown", "tex", "text" },
     --   settings = {
@@ -157,7 +173,7 @@ return {
     --   },
     -- })
 
-    --- pyright
+    --+ pyright
     vim.lsp.config("pyright", {
       settings = {
         python = {
@@ -170,7 +186,7 @@ return {
       },
     })
 
-    --- zls
+    --+ zls
     vim.lsp.config("zls", {
       settings = {
         zsl = {
@@ -181,34 +197,35 @@ return {
       },
     })
 
-    --- jdtls
+    --+ jdtls
     vim.lsp.config("jdtls", {
       filetypes = { "java" },
       handlers = {
         ["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
           if not result then return end
-          result.diagnostics = vim.tbl_filter(function(d)
-            return not d.message:match("TODO")
-                and not d.message:match("FIXME")
-                and not d.message:match("XXX")
-          end, result.diagnostics)
+          result.diagnostics = vim.tbl_filter(
+            function(d)
+              return not d.message:match("TODO") and not d.message:match("FIXME") and not d.message:match("XXX")
+            end,
+            result.diagnostics
+          )
           return vim.lsp.handlers["textDocument/publishDiagnostics"](err, result, ctx, config)
         end,
       },
     })
 
-    --- go
+    --+ go
     vim.lsp.config("gopls", {
       cmd = { "gopls" },
       filetypes = { "go", "gomod", "gowork", "gotmpl" },
     })
 
-    --- bashls
+    --+ bashls
     vim.lsp.config("bashls", {
       filetypes = { "sh" },
     })
 
-    --- matlab
+    --+ matlab
     vim.lsp.config("matlab_ls", {
       filetypes = { "m", "matlab" },
       root_dir = function() return vim.fn.getcwd() end,
@@ -222,7 +239,7 @@ return {
       -- stylua: ignore end
     })
 
-    --- php
+    --+ php
     vim.lsp.config("intelephense", {
       settings = {
         intelephense = {
@@ -245,7 +262,7 @@ return {
       },
     })
 
-    --- enable
+    --+ enable
     -- stylua: ignore start
     vim.lsp.enable({ "clangd", "ols", "lua_ls", "faustlps", "mojo"
       -- "clangd", "lua_ls", "ols", "zls", "pyright", "jdtls", "gopls", "bashls", "matlab_ls",

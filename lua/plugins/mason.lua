@@ -25,27 +25,28 @@ return {
         },
       })
 
-      ---@diagnostic disable-next-line: missing-fields
-      require("mason-lspconfig").setup({ -- servers
-        ensure_installed = {
-          "clangd",
-          "ols",
-          "gopls",
-          "zls",
-          "lua_ls",
-          "matlab_ls",
-          "jdtls",
-          "pyright",
-          "html",
-          "cssls",
-          "bashls",
-          "intelephense",
-        },
-        automatic_installation = true,
-        automatic_setup = false,
-      })
+  ---@diagnostic disable-next-line: missing-fields
+  require("mason-lspconfig").setup({
+    ensure_installed = {
+      "clangd",
+      "bashls",
+      "lua_ls",
+      "ols",
+      "gopls",
+      "zls",
+      "matlab_ls",
+      "jdtls",
+      "pyright",
+      -- "html",
+      -- "cssls",
+      -- "intelephense",
+      -- "graphql",
+    },
+    automatic_installation = true,
+    automatic_setup = false,
+  })
 
-      require("mason-tool-installer").setup({ -- formatters, daps, linters
+      require("mason-tool-installer").setup({
         ensure_installed = {
           "prettier",
           "stylua",

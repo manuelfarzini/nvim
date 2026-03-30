@@ -1,4 +1,5 @@
 -- nvim/lua/theme/init.lua
+
 local M = {}
 
 function M.setup()
@@ -76,7 +77,7 @@ function M.setup()
   -- define highlights
   local highlights = {
 
-    --===-- editor
+    --+ editor
 
     -- core
     Background = { fg = colors.back },
