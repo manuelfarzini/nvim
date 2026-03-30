@@ -12,32 +12,26 @@ return {
         },
       },
       formatters_by_ft = {
+        c = { "clang-format" },
+        cpp = { "clang-format" },
+        c3 = { "clang-format" },
+        java = { "clang-format" },
+
+        mojo = { "mojo_format" },
+
         html = { "prettier" },
         json = { "prettier" },
         xml = { "prettier" },
         javascript = { "prettier" },
         typescript = { "prettier" },
-        javascriptreact = { "prettier" },
-        typescriptreact = { "prettier" },
-        svelte = { "prettier" },
         css = { "prettier" },
         yaml = { "prettier" },
-        graphql = { "prettier" },
-        liquid = { "prettier" },
 
         markdown = { "markdownlint" },
         lua = { "stylua" },
         python = { "isort" },
         go = { "goimports", "gofmt" },
         php = { "phpcbf" },
-
-        c = { "clang-format" },
-        cpp = { "clang-format" },
-        c3 = { "clang-format" },
-        ino = { "clang-format" },
-        java = { "clang-format" },
-
-        mojo = { "mojo_format" },
 
         ["_"] = { "trim_whitespace" },
       },

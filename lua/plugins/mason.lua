@@ -28,8 +28,18 @@ return {
       ---@diagnostic disable-next-line: missing-fields
       require("mason-lspconfig").setup({ -- servers
         ensure_installed = {
-          "lua_ls", "clangd", "gopls", "zls", "ols", "pyright", "matlab_ls", "jdtls", "html",
-          "cssls", "bashls", "graphql", "emmet_ls", "prismals", "intelephense",
+          "clangd",
+          "ols",
+          "gopls",
+          "zls",
+          "lua_ls",
+          "matlab_ls",
+          "jdtls",
+          "pyright",
+          "html",
+          "cssls",
+          "bashls",
+          "intelephense",
         },
         automatic_installation = true,
         automatic_setup = false,
@@ -37,8 +47,14 @@ return {
 
       require("mason-tool-installer").setup({ -- formatters, daps, linters
         ensure_installed = {
-          "prettier", "stylua", "isort", "eslint_d", "markdownlint", "shfmt",
-          "codelldb", "phpcbf",
+          "prettier",
+          "stylua",
+          "isort",
+          "eslint_d",
+          "markdownlint",
+          "shfmt",
+          "codelldb",
+          "phpcbf",
         },
         auto_update = true,
         run_on_start = true,

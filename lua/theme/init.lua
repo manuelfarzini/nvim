@@ -256,7 +256,7 @@ function M.setup()
     -- use {} to highlight all pp #if branches and do not dim them
     ["@lsp.type.comment.cpp"] = {},
     -- ["@lsp.type.comment.cpp"] = { fg = colors.grey4 },
-    ["@lsp.type.typeParameter.cpp"] = { fg = colors.param },
+    ["@lsp.typemod.typeParameter.functionScope.cpp"] = { fg = colors.param },
 
     -- markup
     ["@markup.heading.1"] = { fg = colors.green1, bold = true },
