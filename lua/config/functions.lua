@@ -1,5 +1,6 @@
---------------------------------------------
--- Rename under cursor
+------------------------------------------++
+--+ Rename under cursor
+------------------------------------------++
 
 local function esc_search_pat_ident(s)
   return s:gsub("\\", "\\\\")
@@ -55,3 +56,59 @@ vim.keymap.set("n", "<leader>RW", function()
   })
 end, { desc = "Rename word across cwd files via quickfix" })
 
+------------------------------------------++
+--+ Yank diagnostic under cursors
+------------------------------------------++
+
+local function yank_diagnostic_under_cursor_to_plus()
+    local bufnr = 0
+    local pos = vim.api.nvim_win_get_cursor(0)
+    local line = pos[1] - 1
+    local col = pos[2]
+
+    local diags = vim.diagnostic.get(bufnr)
+    local picked = nil
+
+    for _, d in ipairs(diags) do
+        local start_line = d.lnum
+        local end_line = d.end_lnum or d.lnum
+        local start_col = d.col or 0
+        local end_col = d.end_col or start_col
+
+        local on_same_line = (line >= start_line and line <= end_line)
+        local in_cols = true
+
+        if start_line == end_line and line == start_line then
+            in_cols = (col >= start_col and col <= end_col)
+        elseif line == start_line then
+            in_cols = (col >= start_col)
+        elseif line == end_line then
+            in_cols = (col <= end_col)
+        end
+
+        if on_same_line and in_cols then
+            picked = d
+            break
+        end
+    end
+
+    if not picked then
+        vim.notify("No diagnostic under cursor", vim.log.levels.WARN)
+        return
+    end
+
+    local msg = picked.message
+    if picked.code then
+        msg = msg .. " [" .. tostring(picked.code) .. "]"
+    end
+
+    vim.fn.setreg("+", msg)
+    vim.fn.setreg("*", msg)
+
+    vim.notify("Diagnostic copied to clipboard")
+end
+
+vim.keymap.set("n", "<leader>yd", yank_diagnostic_under_cursor_to_plus, {
+    desc = "Yank diagnostic under cursor to +",
+    silent = true,
+})
