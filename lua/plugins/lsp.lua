@@ -24,7 +24,7 @@ return {
         local disabled = {
           ["zls"] = true,
         }
-    if disabled[client.name] then client.server_capabilities.semanticTokensProvider = nil end
+        if disabled[client.name] then client.server_capabilities.semanticTokensProvider = nil end
 
         --+ Diagnostics format
         vim.diagnostic.config({
@@ -47,6 +47,9 @@ return {
         -- TODO: see init.lua/lua/theprimeagen/init.lua
         local opts = { buffer = ev.buf, silent = true }
 
+        opts.desc = "Restart LSP"
+        vim.keymap.set("n", "<leader>lr", ":LspRestart<CR>", opts)
+
         opts.desc = "Go to declaration"
         vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
 
@@ -59,20 +62,28 @@ return {
         opts.desc = "Show LSP type definitions"
         vim.keymap.set("n", "gt", "<Cmd>Telescope lsp_type_definitions<CR>", opts)
 
-        opts.desc = "Show buffer diaghostics"
-        vim.keymap.set("n", "<leader>D", "<Cmd>Telescope diagnostics bufnr=0<CR>", opts)
-
         opts.desc = "Previous diagnostic"
         vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, opts)
 
         opts.desc = "Next diagnostic"
         vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, opts)
 
-        opts.desc = "Restart LSP"
-        vim.keymap.set("n", "<leader>lr", ":LspRestart<CR>", opts)
+        -- XXX: not often used because of trouble
+        -- opts.desc = "Show buffer diaghostics"
+        -- vim.keymap.set("n", "<leader>D", "<Cmd>Telescope diagnostics bufnr=0<CR>", opts)
 
-        opts.desc = "Show diagnostic under cursor"
-        vim.keymap.set("n", "<leader>d", function() vim.diagnostic.open_float(nil, {}) end, opts)
+        vim.keymap.set("n", "<leader>d", function()
+          local _, winid = vim.diagnostic.open_float(0, { scope = "cursor", focusable = true })
+          print("winid:", winid, "current:", vim.api.nvim_get_current_win())
+
+          vim.schedule(function()
+            print("after schedule, valid:", winid and vim.api.nvim_win_is_valid(winid))
+            if winid and vim.api.nvim_win_is_valid(winid) then
+              vim.api.nvim_set_current_win(winid)
+              print("new current:", vim.api.nvim_get_current_win())
+            end
+          end)
+        end)
       end,
     })
 
@@ -141,9 +152,7 @@ return {
         completeUnimported = true,
       },
       on_attach = function(client, bufnr)
-        if client.supports_method("textDocument/inlayHint") then
-          vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-        end
+        if client.supports_method("textDocument/inlayHint") then vim.lsp.inlay_hint.enable(true, { bufnr = bufnr }) end
       end,
     })
 

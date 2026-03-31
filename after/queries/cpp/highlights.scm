@@ -126,17 +126,3 @@
     "none"
   )
   (#set! "priority" 128))
-
-;-- NTTP
-; BUG:
-; Evidenzia correttamente in header ad e.g. <isize bytes>,
-; ma se poi bytes viene passata ad un altro template
-; e.g. UnderType<bytes>, allora evidenzia come tipo e
-; non si riesce a matchare il NTTP.
-
-; (parameter_declaration
-;   type: (_)
-;   declarator: (identifier) @variable.template
-;   (#set! "priority" 128)
-; )
-
