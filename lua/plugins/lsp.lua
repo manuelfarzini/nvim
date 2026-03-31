@@ -24,55 +24,54 @@ return {
         local disabled = {
           ["zls"] = true,
         }
-    if disabled[client.name] then client.server_capabilities.semanticTokensProvider = nil end
+        if disabled[client.name] then client.server_capabilities.semanticTokensProvider = nil end
 
         --+ Diagnostics format
+        -- WARN: this solution may be fragile
+        local code_persistent = ""
         vim.diagnostic.config({
           float = {
             border = "rounded",
-            source = true,
+            source = "if_many",
             header = "",
-            max_width = 100,
+            max_width = 60,
             wrap = true,
             severity_sort = true,
             format = function(diagnostic)
-              local code = diagnostic.code or ""
+              code_persistent = diagnostic.code or code_persistent
               diagnostic.code = nil
-              return string.format("%s [%s]\n", diagnostic.message, code)
+              return string.format("%s [%s]\n", diagnostic.message, code_persistent)
             end,
           },
         })
 
         --+ Keymaps
-        -- TODO: see init.lua/lua/theprimeagen/init.lua
+
         local opts = { buffer = ev.buf, silent = true }
 
-        opts.desc = "Go to declaration"
-        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+        opts.desc = "Restart LSP"
+        vim.keymap.set("n", "<leader>lr", ":LspRestart<CR>", opts)
 
-        opts.desc = "Show LSP definitions"
-        vim.keymap.set("n", "gd", "<Cmd>Telescope lsp_definitions<CR>", opts)
+        opts.desc = "Go to definition"
+        vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+
+        opts.desc = "Telescope LSP definitions"
+        vim.keymap.set("n", "gD", "<Cmd>Telescope lsp_definitions<CR>", opts)
 
         opts.desc = "Show LSP references"
         vim.keymap.set("n", "gR", "<Cmd>Telescope lsp_references<CR>", opts)
 
-        opts.desc = "Show LSP type definitions"
-        vim.keymap.set("n", "gt", "<Cmd>Telescope lsp_type_definitions<CR>", opts)
+        opts.desc = "Telescope LSP type definitions"
+        vim.keymap.set("n", "gT", "<Cmd>Telescope lsp_type_definitions<CR>", opts)
 
-        opts.desc = "Show buffer diaghostics"
-        vim.keymap.set("n", "<leader>D", "<Cmd>Telescope diagnostics bufnr=0<CR>", opts)
+        opts.desc = "Diagnostics hoover under cursor"
+        vim.keymap.set("n", "<leader>d", function() vim.diagnostic.open_float() end, opts)
 
         opts.desc = "Previous diagnostic"
         vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, opts)
 
         opts.desc = "Next diagnostic"
         vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, opts)
-
-        opts.desc = "Restart LSP"
-        vim.keymap.set("n", "<leader>lr", ":LspRestart<CR>", opts)
-
-        opts.desc = "Show diagnostic under cursor"
-        vim.keymap.set("n", "<leader>d", function() vim.diagnostic.open_float(nil, {}) end, opts)
       end,
     })
 
@@ -141,9 +140,7 @@ return {
         completeUnimported = true,
       },
       on_attach = function(client, bufnr)
-        if client.supports_method("textDocument/inlayHint") then
-          vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-        end
+        if client.supports_method("textDocument/inlayHint") then vim.lsp.inlay_hint.enable(true, { bufnr = bufnr }) end
       end,
     })
 

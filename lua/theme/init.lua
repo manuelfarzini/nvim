@@ -254,10 +254,11 @@ function M.setup()
     ["@lsp.type.namespace"] = { link = "Module" },
     ["@lsp.type.concept"] = { link = "Traits" },
     -- c++
-    -- use {} to highlight all pp #if branches and do not dim them
-    ["@lsp.type.comment.cpp"] = {},
-    -- ["@lsp.type.comment.cpp"] = { fg = colors.grey4 },
+    -- use {} to highlight all conditional pp branche
+    -- assign a dimmed color to snooze the unactive pp branches
+    ["@lsp.type.comment.cpp"] = {}, -- { fg = colors.grey4 },
     ["@lsp.typemod.typeParameter.functionScope.cpp"] = { fg = colors.param },
+    -- ["@lsp.typemod.typeParameter.definition.cpp"] = { fg = colors.param },
 
     -- markup
     ["@markup.heading.1"] = { fg = colors.green1, bold = true },
