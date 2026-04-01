@@ -95,20 +95,20 @@ return {
     })
 
     --+ rust analyzer
-    -- vim.lsp.config("rust_analyzer", {
-    --   filetypes = { "rust" },
-    --   settings = {
-    --     ["rust-analyzer"] = {
-    --       checkOnSave = true,
-    --       check = {
-    --         command = "check",
-    --       },
-    --       cargo = {
-    --         allFeatures = true,
-    --       },
-    --     },
-    --   },
-    -- })
+    vim.lsp.config("rust_analyzer", {
+      filetypes = { "rust" },
+      settings = {
+        ["rust-analyzer"] = {
+          checkOnSave = true,
+          check = {
+            command = "check",
+          },
+          cargo = {
+            allFeatures = true,
+          },
+        },
+      },
+    })
 
     --+ faust-lsp
     vim.lsp.config("faustlsp", {
@@ -195,21 +195,21 @@ return {
     })
 
     --+ jdtls
-    vim.lsp.config("jdtls", {
-      filetypes = { "java" },
-      handlers = {
-        ["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
-          if not result then return end
-          result.diagnostics = vim.tbl_filter(
-            function(d)
-              return not d.message:match("TODO") and not d.message:match("FIXME") and not d.message:match("XXX")
-            end,
-            result.diagnostics
-          )
-          return vim.lsp.handlers["textDocument/publishDiagnostics"](err, result, ctx, config)
-        end,
-      },
-    })
+    -- vim.lsp.config("jdtls", {
+    --   filetypes = { "java" },
+    --   handlers = {
+    --     ["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
+    --       if not result then return end
+    --       result.diagnostics = vim.tbl_filter(
+    --         function(d)
+    --           return not d.message:match("TODO") and not d.message:match("FIXME") and not d.message:match("XXX")
+    --         end,
+    --         result.diagnostics
+    --       )
+    --       return vim.lsp.handlers["textDocument/publishDiagnostics"](err, result, ctx, config)
+    --     end,
+    --   },
+    -- })
 
     --+ go
     vim.lsp.config("gopls", {
@@ -261,7 +261,7 @@ return {
 
     --+ enable
     -- stylua: ignore start
-    vim.lsp.enable({ "clangd", "ols", "lua_ls", "faustlps", "mojo"
+    vim.lsp.enable({ "clangd", "ols", "lua_ls", "faustlps", "mojo", "rust-analyer"
       -- "clangd", "lua_ls", "ols", "zls", "pyright", "jdtls", "gopls", "bashls", "matlab_ls",
       -- "emmet_ls", "intelephense", "faustlsp", "mojo"
     })
