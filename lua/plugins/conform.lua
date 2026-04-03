@@ -17,6 +17,8 @@ return {
         c3 = { "clang-format" },
         java = { "clang-format" },
 
+        rust = { "rustfmt" },
+
         mojo = { "mojo_format" },
 
         html = { "prettier" },
