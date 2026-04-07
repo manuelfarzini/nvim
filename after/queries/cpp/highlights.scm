@@ -38,7 +38,6 @@
     "cast"
     "cexpr"
     "ceval"
-    "glob"
     "implicit"
     "persist"
     "predicate"
@@ -56,10 +55,10 @@
     "cexpr"
     "ceval"
     "cast"
+    "glob"
     "persist"
     "predicate"
     "proc"
-    "twide"
     "decT"
     "sizeIn"
   )
@@ -67,7 +66,6 @@
 
 ((field_identifier) @qualifier
   (#any-of? @qualifier
-    "twide"
     "cexpr"
   )
   (#set! "priority" 128))
@@ -83,7 +81,7 @@
 ((identifier) @keyword.func
   (#any-of? @keyword.func
     "extern"
-    "finline"
+    "glob"
     "intern"
     "onedef"
     "where"
@@ -93,7 +91,7 @@
 ((type_identifier) @keyword.func
   (#any-of? @keyword.func
     "extern"
-    "finline"
+    "glob"
     "intern"
     "onedef"
     "where"
@@ -103,7 +101,6 @@
 ((type_qualifier) @keyword.func
   (#any-of? @keyword.func
     "extern"
-    "finline"
     "intern"
     "onedef"
   )
