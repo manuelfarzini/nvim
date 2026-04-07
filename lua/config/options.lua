@@ -5,10 +5,10 @@ vim.g.maplocalleader = "\\"
 vim.o.cmdheight = 0
 vim.opt.laststatus = 2
 vim.cmd("let g:netrw_liststyle = 3")
-vim.lsp.set_log_level("Debug") -- "Debug" if needed
 vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 vim.opt.completeopt = "menuone,noinsert,noselect"
 vim.g.have_nerd_font = false
+vim.lsp.log.set_level("OFF")
 --
 
 --- Miscellaneous
