@@ -53,7 +53,6 @@ return {
           "markdownlint",
           "phpcbf",
           "prettier",
-          "rustfmt",
           "stylua",
           -- "eslint_d",
           -- "codelldb",
