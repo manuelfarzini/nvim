@@ -214,7 +214,7 @@ return {
     --+ go
     vim.lsp.config("gopls", {
       cmd = { "gopls" },
-      filetypes = { "go", "gomod", "gowork", "gotmpl" },
+      filetypes = { "go", "gomod" },
     })
 
     --+ bashls
@@ -261,9 +261,9 @@ return {
 
     --+ enable
     -- stylua: ignore start
-    vim.lsp.enable({ "clangd", "ols", "lua_ls", "faustlps", "mojo", "rust-analyer"
-      -- "clangd", "lua_ls", "ols", "zls", "pyright", "jdtls", "gopls", "bashls", "matlab_ls",
-      -- "emmet_ls", "intelephense", "faustlsp", "mojo"
+    vim.lsp.enable({ "clangd", "ols", "lua_ls", "faustlsp", "mojo", "rust-analyzer"
+      -- "zls", "pyright", "jdtls", "gopls", "bashls", "matlab_ls",
+      -- "emmet_ls", "intelephense",
     })
     --stylua :ignore end
   end,
