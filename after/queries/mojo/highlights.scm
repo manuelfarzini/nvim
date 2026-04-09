@@ -1,13 +1,11 @@
-; adapted from Zed's Python Config
-; https://github.com/zed-industries/zed/blob/6657e301cd0ee9e7b7b5352957ef30728ae2a874/crates/languages/src/python/highlights.scm
 (attribute attribute: (identifier) @property)
 (type (identifier) @type)
 
 ; Function calls
 
-(decorator) @function
+(decorator) @decorator
 (decorator
-  (identifier) @function)
+  (identifier) @decorator)
 
 (call
   function: (attribute attribute: (identifier) @function.method))
@@ -77,14 +75,6 @@
 (interpolation
   "{" @punctuation.special
   "}" @punctuation.special) @embedded
-
-; Docstrings.
-(function_definition
-  "async"?
-  "def"
-  name: (_)
-  (parameters)?
-  body: (block (expression_statement (string) @string.doc)))
 
 [
   "-"
