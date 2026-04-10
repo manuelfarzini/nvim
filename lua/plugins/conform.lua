@@ -8,9 +8,10 @@ return {
     conform.setup({
       formatters = {
         mojo_format = {
-          append_args = { "-l", "90" },
+          append_args = { "-l", "90", "-h" },
         },
       },
+
       formatters_by_ft = {
         c = { "clang-format" },
         cpp = { "clang-format" },
@@ -28,6 +29,7 @@ return {
         typescript = { "prettier" },
         css = { "prettier" },
         yaml = { "prettier" },
+        toml = { "prettier" },
 
         markdown = { "markdownlint" },
         lua = { "stylua" },
