@@ -14,8 +14,9 @@ function M.setup()
     line     = "#efefe5",
     sel_bg   = "#cedce5",
     vm_bg    = "#ceceb3",
-    value1   = "#849200",
-    value2   = "#cf8f0b",
+    value1   = "#8d9a0c",
+    -- value1   = "#849200",
+    -- value2   = "#cf8f0b",
     value3   = "#c68909",
     -- value3   = "#8d9a0c",
     type     = "#626246",
@@ -27,7 +28,7 @@ function M.setup()
     macro    = "#6d4a00",
     comment1 = "#a8977a",
     comment2 = "#a88c5b",
-    note     = "#8d9a0c",
+    note     = "#879dad",
     error    = "#931514",
     warn     = "#c27070",
     param   = "#3b457b",
@@ -167,7 +168,7 @@ function M.setup()
     PmenuSel = { bg = colors.green4 },
     WildMenu = { bg = colors.grey3 },
 
-    --===-- syntax
+    ------+ syntax
     Comment = { fg = colors.comment1 },
     String = { fg = colors.value3 },
     Character = { fg = colors.value3 },
@@ -204,7 +205,7 @@ function M.setup()
     zshSubstQuoted = { fg = colors.grey2 },
     --
 
-    --===-- treesitter
+    ------+ treesitter
     -- common
     ["@attribute"] = { link = "Attribute" },
     ["@constant"] = { link = "Variable" },
@@ -212,17 +213,17 @@ function M.setup()
     ["@constant.builtin"] = { link = "Constant" },
     ["@constructor"] = { link = "Type" },
     ["@decorator"] = { link = "PreProc" },
-    ["@keyword"] = { link = "Type" },
-    ["@keyword.conditional"] = { link = "Keyword" },
+    ["@keyword"] = { link = "Keyword" },
     ["@keyword.directive"] = { link = "PreProc" },
-    ["@keyword.exception"] = { link = "Keyword" },
     ["@keyword.import"] = { link = "PreProc" },
-    ["@keyword.func.cpp"] = { link = "Keyword" },
-    ["@keyword.modifier"] = { link = "Qualifier" },
-    ["@keyword.operator"] = { link = "Operator" },
-    ["@keyword.repeat"] = { link = "Keyword" },
-    ["@keyword.return"] = { link = "Keyword" },
     ["@keyword.type"] = { link = "Type" },
+    -- ["@keyword.exception"] = { link = "Keyword" },
+    -- ["@keyword.func.cpp"] = { link = "Keyword" },
+    -- ["@keyword.modifier"] = { link = "Qualifier" },
+    -- ["@keyword.operator"] = { link = "Operator" },
+    -- ["@keyword.repeat"] = { link = "Keyword" },
+    -- ["@keyword.return"] = { link = "Keyword" },
+    -- ["@keyword.type"] = { link = "Type" },
     ["@type"] = { link = "Type" },
     ["@type.builtin"] = { link = "Type" },
     ["@function.builtin"] = { link = "Function" },
@@ -232,6 +233,7 @@ function M.setup()
     ["@preproc"] = { link = "PreProc" },
     ["@punctuation.special"] = { fg = colors.fore },
     ["@punctuation.bracket"] = {},
+    ["@constant.special"] = { fg = colors.value1 },
     ["@spell"] = { link = "Spell" },
     ["@variable"] = { link = "Variable" },
     ["@variable.builtin"] = { link = "Constant" },
@@ -241,13 +243,12 @@ function M.setup()
     ["@markup.link"] = { link = "Link" },
     ["@markup.math.latex"] = { fg = colors.grey1 },
     -- c++
-    ["@keyword.noexce.cpp"] = { fg = colors.keyword },
     -- mojo
     ["@keyword.mojo"] = { fg = colors.keyword },
     ["@constant.mojo"] = { fg = colors.fore },
 
 
-    --===-- Semantic
+    ------+ Semantic
     -- common
     ["@lsp.type.macro"] = { link = "Macro" },
     ["@lsp.type.namespace"] = { link = "Module" },
@@ -269,22 +270,22 @@ function M.setup()
     ["@markup.raw.markdown_inline"] = { fg = colors.grey1 },
     --
 
-    --===-- lazy
+    ------+ lazy
     LazyButton = { fg = colors.fore, bg = colors.back },
     LazySpecial = { fg = colors.grey3, bg = "NONE" },
     --
 
-    --===-- telescope
+    ------+ telescope
     TelescopeBorder = { fg = colors.grey2 },
     TelescopeSelection = { fg = colors.fore, bg = colors.line },
     TelescopeMatching = { fg = colors.orange_teles },
     --
 
-    --===-- nvim-tree
+    ------+ nvim-tree
     NvimTreeFolderIcon = { link = "Directory" },
     --
 
-    --===-- Extmarks
+    ------+ Extmarks
     LspReferenceText = { fg = colors.fore, bg = colors.grey3 },
     TodofgNOTE = { fg = colors.note },
     TodoBgNOTE = { fg = colors.zfore, bg = colors.note, bold = true },
@@ -294,7 +295,7 @@ function M.setup()
     TodoSignTEST = { fg = colors.error },
     --
 
-    --===-- Mason
+    ------+ Mason
     MasonHeader = { bg = colors.orange3 },
     MasonHighlightBlockBold = { fg = colors.fore, bg = colors.green4 },
     MasonMutedBlock = { fg = colors.fore, bg = colors.grey3 },
@@ -302,7 +303,7 @@ function M.setup()
     MasonHighlight = { fg = colors.grey1 },
     --
 
-    --===-- Flash
+    ------+ Flash
     FlashBackdrop = { fg = colors.grey3, bg = "NONE" },
     FlashMatch = { fg = colors.flash_match, bg = "NONE" },
     FlashCurrent = { fg = colors.grey1, bg = "NONE" },
@@ -313,13 +314,13 @@ function M.setup()
     -- FlashCursor = { bg = "NONE" },
     --
 
-    --===-- NeoCodeium
+    ------+ NeoCodeium
     NeoCodeiumSuggestion = { fg = colors.grey3 },
     NeoCodeiumSingleLineLabel = { fg = colors.fore, bg = colors.line },
     NeoCodeiumLabel = { fg = colors.green2, bg = colors.back },
     --
 
-    --===-- RenderMarkdown
+    ------+ RenderMarkdown
     RenderMarkdownH1Bg = { link = "markup.heading.1.markdown" },
     RenderMarkdownH2Bg = { link = "markup.heading.2.markdown" },
     RenderMarkdownH3Bg = { link = "markup.heading.3.markdown" },

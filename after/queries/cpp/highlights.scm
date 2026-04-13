@@ -14,7 +14,7 @@
 ;---------------------------------------------------------------
 ; Enhance priority over semantic tokens
 
-((storage_class_specifier) @keyword.func
+((storage_class_specifier) @keyword
   (#set! priority 128))
 
 ((type_qualifier) @qualifier
@@ -24,14 +24,13 @@
   name: (type_identifier) @type
   (#set! "priority" 128))
 
+((auto) @type
+  (#set! "priority" 128))
 
 ;---------------------------------------------------------------
 ; Highlight custom tokens as keywords/qualifiers
 
 ;-- Qualifiers
-
-((auto) @type
-  (#set! "priority" 128))
 
 ((type_identifier) @qualifier
   (#any-of? @qualifier
@@ -45,7 +44,6 @@
     "EnableIf"
     "PlainT"
     "Requires"
-    "elemIn"
     "decT"
   )
   (#set! "priority" 128))
@@ -55,12 +53,10 @@
     "cexpr"
     "ceval"
     "cast"
-    "glob"
     "persist"
     "predicate"
     "proc"
     "decT"
-    "sizeIn"
   )
   (#set! "priority" 128))
 
@@ -78,46 +74,39 @@
 
 ;-- Keywords
 
-((identifier) @keyword.func
-  (#any-of? @keyword.func
+((identifier) @keyword
+  (#any-of? @keyword
     "extern"
     "glob"
     "intern"
-    "onedef"
-    "where"
-  )
-  (#set! "priority" 128))
-
-((type_identifier) @keyword.func
-  (#any-of? @keyword.func
-    "extern"
-    "glob"
-    "intern"
-    "onedef"
-    "where"
-  )
-  (#set! "priority" 128))
-
-((type_qualifier) @keyword.func
-  (#any-of? @keyword.func
-    "extern"
-    "intern"
-    "onedef"
-  )
-  (#set! "priority" 128))
-
-;-- Noexce
-
-((identifier) @keyword.noexce
-  (#any-of? @keyword.noexce
     "noexce"
+    "onedef"
+    "where"
+  )
+  (#set! "priority" 128))
+
+((type_identifier) @keyword
+  (#any-of? @keyword
+    "extern"
+    "glob"
+    "intern"
+    "onedef"
+    "where"
+  )
+  (#set! "priority" 128))
+
+((type_qualifier) @keyword
+  (#any-of? @keyword
+    "extern"
+    "intern"
+    "onedef"
   )
   (#set! "priority" 128))
 
 ;-- Constants
 
-((identifier) @constant
-  (#any-of? @constant
+((identifier) @constant.special
+  (#any-of? @constant.special
     "null"
     "nil"
     "none"
