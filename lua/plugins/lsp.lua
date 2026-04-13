@@ -50,7 +50,7 @@ return {
         local opts = { buffer = ev.buf, silent = true }
 
         opts.desc = "Restart LSP"
-        vim.keymap.set("n", "<leader>lr", ":LspRestart<CR>", opts)
+        vim.keymap.set("n", "<leader>lr", "<Cmd>lsp restart<CR>", opts)
 
         opts.desc = "Go to definition"
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
@@ -90,15 +90,15 @@ return {
     --+ mojo-lsp
     vim.lsp.config("mojo", {
       cmd = { "mojo-lsp-server", "-I", "." }, -- enough with pixi shell
-      root_markers = { "pixi.toml", ".git" }, -- pixi
       filetypes = { "mojo" },
+      root_markers = { "pixi.toml", ".git" }, -- pixi
     })
 
     --+ rust analyzer
     vim.lsp.config("rust_analyzer", {
       filetypes = { "rust" },
       settings = {
-        ["rust-analyzer"] = {
+        ["rust_analyzer"] = {
           checkOnSave = true,
           check = {
             command = "check",
@@ -224,7 +224,7 @@ return {
 
     --+ matlab
     vim.lsp.config("matlab_ls", {
-      filetypes = { "m", "matlab" },
+      filetypes = { "matlab" },
       root_dir = function() return vim.fn.getcwd() end,
     })
 
@@ -261,7 +261,7 @@ return {
 
     --+ enable
     -- stylua: ignore start
-    vim.lsp.enable({ "clangd", "ols", "lua_ls", "faustlsp", "mojo", "rust-analyzer"
+    vim.lsp.enable({ "clangd", "ols", "lua_ls", "faustlsp", "mojo", "rust_analyzer"
       -- "zls", "pyright", "jdtls", "gopls", "bashls", "matlab_ls",
       -- "emmet_ls", "intelephense",
     })

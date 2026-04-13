@@ -6,14 +6,11 @@ return {
     local lualine = require("lualine")
     local lazy_status = require("lazy.status")
 
-    local fore  = "#1a1a13"
+    local fore = "#1a1a13"
     local grey4 = "#dedecc"
     local error = "#931514"
-    local warn  = "#c27070"
-    -- local warn  = "#7ea8cf"
-    -- local error = "#464ea3"
+    local warn = "#c27070"
 
-    -- Defining custom theme
     local lualine_theme = {
       normal = {
         a = { bg = grey4, fg = fore, gui = "bold" },
@@ -48,18 +45,14 @@ return {
     }
 
     local function hide_in_nvimtree(str)
-      if vim.bo.filetype == "NvimTree" then
-        return ""
-      end
+      if vim.bo.filetype == "NvimTree" then return "" end
       return str
     end
 
     local function current_mode()
       local mode = require("lualine.utils.mode").get_mode()
       local vm_info = vim.fn.VMInfos()
-      if vm_info and vm_info.status ~= nil then
-        mode = "VM " .. mode
-      end
+      if vm_info and vm_info.status ~= nil then mode = "VM " .. mode end
       return mode
     end
 
@@ -73,7 +66,7 @@ return {
       end
     end
 
-    lualine.setup({ -- configure lualine with modified theme
+    lualine.setup({
       options = {
         theme = lualine_theme,
         component_separators = "",
@@ -84,9 +77,7 @@ return {
           {
             current_mode,
             fmt = function(str)
-              if vim.bo.filetype == "NvimTree" then
-                return ""
-              end
+              if vim.bo.filetype == "NvimTree" then return "" end
               return str
             end,
             gui = "bold",
@@ -119,21 +110,14 @@ return {
               hint = { fg = warn, bg = grey4 },
             },
             -- local signs = { Error = "✕", Warn = "!", Hint = "?", Info = "i" }
-            symbols = {
-              error = "✕",-- " ",
-              warn = "!", --" ",
-              info = "?",--" ",
-              hint = "i", -- " ",
-            },
+            symbols = { error = "E", warn = "W", info = "I", hint = "H" },
           },
         },
 
         lualine_y = {
           {
             "progress",
-            fmt = function(str)
-              return (vim.bo.filetype ~= "NvimTree") and string.lower(str) or ""
-            end,
+            fmt = function(str) return (vim.bo.filetype ~= "NvimTree") and string.lower(str) or "" end,
           },
         },
 
@@ -149,9 +133,7 @@ return {
         lualine_c = {
           {
             "filename",
-            fmt = function(str)
-              return (vim.bo.filetype == "NvimTree") and "" or str
-            end,
+            fmt = function(str) return (vim.bo.filetype == "NvimTree") and "" or str end,
           },
         },
         lualine_x = {
@@ -164,4 +146,4 @@ return {
       extension = { "fugitive" },
     })
   end,
-   }
+}
