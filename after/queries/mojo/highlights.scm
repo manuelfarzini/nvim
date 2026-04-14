@@ -25,7 +25,12 @@
 
 ((identifier) @type
  (#any-of? @type "c_int" "c_uint" "c_long" "c_ulong" "c_float" "c_double")
+ (#not-any-of? @type "dtype")
  (#set! priority 101))
+
+((identifier) @variable
+  (#match? @variable "^dtype$")
+  (#set! priority 101))
 
 ((identifier) @constant
  (#match? @constant "^_*[A-Z][A-Z0-9_]*$")
@@ -33,7 +38,7 @@
    "U8" "U16" "U32" "U64"
    "I8" "I16" "I32" "I64"
    "S8" "S16" "S32" "S64"
-   "F32" "F64")
+   "F32" "F64" "SIMD")
  (#set! priority 101))
 
 ((argument_convention) @keyword
