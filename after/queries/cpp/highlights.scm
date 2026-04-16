@@ -17,12 +17,12 @@
 ((storage_class_specifier) @keyword
   (#set! priority 128))
 
-((type_qualifier) @qualifier
-  (#set! "priority" 128))
+; ((type_qualifier) @qualifier
+;   (#set! "priority" 128))
 
-(alias_declaration
-  name: (type_identifier) @type
-  (#set! "priority" 128))
+; (alias_declaration
+;   name: (type_identifier) @type
+;   (#set! "priority" 128))
 
 ((auto) @type
   (#set! "priority" 128))
