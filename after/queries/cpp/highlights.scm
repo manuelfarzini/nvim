@@ -27,18 +27,13 @@
 ((auto) @type
   (#set! "priority" 128))
 
-;---------------------------------------------------------------
-; Highlight custom tokens as keywords/qualifiers
-
 ;-- Qualifiers
 
 ((type_identifier) @qualifier
   (#any-of? @qualifier
     "cast"
-    "cexpr"
-    "ceval"
     "implicit"
-    "persist"
+    "meta"
     "predicate"
     "proc"
     "EnableIf"
@@ -50,33 +45,27 @@
 
 ((identifier) @qualifier
   (#any-of? @qualifier
-    "cexpr"
-    "ceval"
     "cast"
-    "persist"
     "predicate"
     "proc"
     "decT"
   )
   (#set! "priority" 128))
 
-((field_identifier) @qualifier
-  (#any-of? @qualifier
-    "cexpr"
-  )
-  (#set! "priority" 128))
-
-((namespace_identifier) @qualifier
-  (#any-of? @qualifier
-    "cexpr"
-  )
-  (#set! "priority" 128))
-
 ;-- Keywords
+
+((field_identifier) @keyword
+  (#any-of? @keyword
+   "cexpr"
+  )
+  (#set! "priority" 128))
+
 
 ((identifier) @keyword
   (#any-of? @keyword
-    "extern"
+    "cexpr"
+    "ceval"
+    "consfn"
     "glob"
     "intern"
     "noexce"
@@ -87,17 +76,17 @@
 
 ((type_identifier) @keyword
   (#any-of? @keyword
-    "extern"
+    "cexpr"
     "glob"
     "intern"
     "onedef"
+    "persist"
     "where"
   )
   (#set! "priority" 128))
 
 ((type_qualifier) @keyword
   (#any-of? @keyword
-    "extern"
     "intern"
     "onedef"
   )
