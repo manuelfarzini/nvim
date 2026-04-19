@@ -33,13 +33,9 @@
   (#any-of? @qualifier
     "cast"
     "implicit"
-    "meta"
     "predicate"
     "proc"
-    "EnableIf"
     "PlainT"
-    "Requires"
-    "decT"
   )
   (#set! "priority" 128))
 
@@ -48,7 +44,6 @@
     "cast"
     "predicate"
     "proc"
-    "decT"
   )
   (#set! "priority" 128))
 
@@ -66,22 +61,26 @@
     "cexpr"
     "ceval"
     "consfn"
+    "declt"
     "glob"
     "intern"
     "noexce"
     "onedef"
     "where"
+    "req"
   )
   (#set! "priority" 128))
 
 ((type_identifier) @keyword
   (#any-of? @keyword
     "cexpr"
+    "declt"
     "glob"
     "intern"
     "onedef"
     "persist"
     "where"
+    "Requires"
   )
   (#set! "priority" 128))
 
