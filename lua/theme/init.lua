@@ -166,7 +166,7 @@ function M.setup()
     Character = { fg = colors.value2 },
     Number = { fg = colors.value2 },
     Float = { fg = colors.value2 },
-    Boolean = { fg = colors.value2 },
+    Boolean = { fg = colors.value1 },
     Identifier = { fg = colors.fore },
     Function = { fg = colors.fore },
     Type = { fg = colors.type },
