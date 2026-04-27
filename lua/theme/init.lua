@@ -173,7 +173,6 @@ function M.setup()
     Special = { fg = colors.value2 },
     SpecialChar = { fg = colors.value2 },
     Keyword = { fg = colors.keyword },
-    -- Keyword = { fg = colors.fore, italic = true },
     Qualifier = { fg = colors.type },
     Constant = { fg = colors.value2 },
     Attribute = { fg = colors.grey3 },
@@ -228,7 +227,7 @@ function M.setup()
     ["@punctuation.bracket"] = {},
     ["@spell"] = { link = "Spell" },
     ["@variable"] = { link = "Variable" },
-    ["@variable.builtin"] = { link = "Constant" },
+    ["@variable.builtin"] = { link = "@constant.builtin" },
     -- doxygen
     ["@keyword.doxygen"] = { link = "PreProc"},
     -- markup
