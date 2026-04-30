@@ -248,6 +248,7 @@ function M.setup()
     -- use {} to highlight all conditional pp branche
     -- assign a dimmed color to snooze the unactive pp branches
     ["@lsp.type.comment.cpp"] = {}, -- { fg = colors.grey4 },
+    ["@lsp.typemod.typeParameter.definition.cpp"] = { fg = colors.param },
     ["@lsp.typemod.typeParameter.functionScope.cpp"] = { fg = colors.param },
     ["@lsp.typemod.typeParameter.readonly.cpp"] = { fg = colors.param },
 

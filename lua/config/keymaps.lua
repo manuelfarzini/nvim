@@ -13,7 +13,7 @@ vim.keymap.set("n", "<C-i>", "<C-o>")
 vim.keymap.set("n", "<C-o>", "<C-i>")
 
 -- Replace word
-vim.keymap.set("n", "<leader>rw", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace word" })
+vim.keymap.set("n", "<leader>rw", [[:%s/\C\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace word" })
 
 -- Commandline scroll
 vim.keymap.set("c", "<M-j>", "<Down>", { noremap = true })
