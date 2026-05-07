@@ -10,12 +10,12 @@ return {
   },
 
   config = function()
-    --+ Autocompletion
+    -- Autocompletion
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     local ok, cmp_lsp = pcall(require, "cmp_nvim_lsp")
     if ok then capabilities = cmp_lsp.default_capabilities(capabilities) end
 
-    --+ Attach Function
+    -- Attach Function
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("PersLspConfig", {}),
       callback = function(ev)
@@ -26,7 +26,7 @@ return {
         }
         if disabled[client.name] then client.server_capabilities.semanticTokensProvider = nil end
 
-        --+ Diagnostics format
+        -- Diagnostics format
         -- WARN: this solution may be fragile
         local code_persistent = ""
         vim.diagnostic.config({
@@ -45,7 +45,7 @@ return {
           },
         })
 
-        --+ Keymaps
+        -- Keymaps
 
         local opts = { buffer = ev.buf, silent = true }
 
@@ -75,26 +75,26 @@ return {
       end,
     })
 
-    --+ signs
+    -- signs
     local signs = { Error = "✕", Warn = "!", Hint = "?", Info = "i" }
     for type, icon in pairs(signs) do
       local hl = "DiagnosticSign" .. type
       vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
     end
 
-    --+ global
+    -- global
     vim.lsp.config("*", {
       capabilities = capabilities,
     })
 
-    --+ mojo-lsp
+    -- mojo-lsp
     vim.lsp.config("mojo", {
       cmd = { "mojo-lsp-server", "-I", "." }, -- enough with pixi shell
       filetypes = { "mojo" },
       root_markers = { "pixi.toml", ".git" }, -- pixi
     })
 
-    --+ rust analyzer
+    -- rust analyzer
     vim.lsp.config("rust_analyzer", {
       filetypes = { "rust" },
       settings = {
@@ -110,7 +110,7 @@ return {
       },
     })
 
-    --+ faust-lsp
+    -- faust-lsp
     vim.lsp.config("faustlsp", {
       cmd = { "faustlsp" },
       filetypes = { "faust" },
@@ -122,7 +122,7 @@ return {
       -- end,
     })
 
-    --+ clangd
+    -- clangd
     vim.lsp.config("clangd", {
       cmd = {
         "clangd",
@@ -144,7 +144,7 @@ return {
       end,
     })
 
-    --+ luals
+    -- luals
     vim.lsp.config("lua_ls", {
       settings = {
         Lua = {
@@ -157,7 +157,7 @@ return {
       },
     })
 
-    -- --+ ltex
+    -- -- ltex
     -- vim.lsp.config("ltex", {
     --   filetypes = { "markdown", "tex", "text" },
     --   settings = {
@@ -170,7 +170,7 @@ return {
     --   },
     -- })
 
-    --+ pyright
+    -- pyright
     vim.lsp.config("pyright", {
       settings = {
         python = {
@@ -183,7 +183,7 @@ return {
       },
     })
 
-    --+ zls
+    -- zls
     vim.lsp.config("zls", {
       settings = {
         zsl = {
@@ -194,7 +194,7 @@ return {
       },
     })
 
-    --+ jdtls
+    -- jdtls
     -- vim.lsp.config("jdtls", {
     --   filetypes = { "java" },
     --   handlers = {
@@ -211,18 +211,18 @@ return {
     --   },
     -- })
 
-    --+ go
+    -- go
     vim.lsp.config("gopls", {
       cmd = { "gopls" },
       filetypes = { "go", "gomod" },
     })
 
-    --+ bashls
+    -- bashls
     vim.lsp.config("bashls", {
       filetypes = { "sh" },
     })
 
-    --+ matlab
+    -- matlab
     vim.lsp.config("matlab_ls", {
       filetypes = { "matlab" },
       root_dir = function() return vim.fn.getcwd() end,
@@ -236,7 +236,7 @@ return {
       -- stylua: ignore end
     })
 
-    --+ php
+    -- php
     vim.lsp.config("intelephense", {
       settings = {
         intelephense = {
@@ -259,7 +259,7 @@ return {
       },
     })
 
-    --+ enable
+    -- enable
     -- stylua: ignore start
     vim.lsp.enable({ "clangd", "ols", "lua_ls", "faustlsp", "mojo", "rust_analyzer"
       -- "zls", "pyright", "jdtls", "gopls", "bashls", "matlab_ls",

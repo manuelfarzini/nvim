@@ -25,47 +25,57 @@ return {
       })
       --
 
+      -- bash
+      vim.filetype.add({
+        extension = {
+          sh = "bash",
+        },
+      })
+      --
+
       local ts = require("nvim-treesitter")
 
       ts.setup({})
 
       ts.install({
+        "bash",
         "c",
         "cpp",
         "faust",
-        "lua",
-        "mojo",
-        "rust",
-        "matlab",
         "go",
+        "java",
+        "lua",
+        "matlab",
+        "mojo",
         "markdown",
         "markdown_inline",
-        "zig",
-        "vim",
         "python",
-        "java",
-        "yaml",
+        "rust",
         "toml",
+        "vim",
+        "yaml",
+        "zig",
       })
 
       vim.api.nvim_create_autocmd("FileType", {
         pattern = {
+          "bash",
           "c",
           "cpp",
           "faust",
-          "lua",
-          "mojo",
-          "rust",
-          "matlab",
           "go",
+          "java",
+          "lua",
+          "matlab",
+          "mojo",
           "markdown",
           "markdown_inline",
-          "zig",
-          "vim",
           "python",
-          "java",
-          "yaml",
+          "rust",
           "toml",
+          "vim",
+          "yaml",
+          "zig",
         },
         callback = function() vim.treesitter.start() end,
       })
