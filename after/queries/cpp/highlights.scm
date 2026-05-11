@@ -1,40 +1,28 @@
 ;; extends
 
-;---------------------------------------------------------------
 ; Include paths
 
-; angled
 (preproc_include
   path: (system_lib_string) @include.path)
 
-; quotes
 (preproc_include
   path: (string_literal) @include.path)
 
-;---------------------------------------------------------------
 ; Enhance priority over semantic tokens
 
 ((storage_class_specifier) @keyword
   (#set! priority 128))
 
-; ((type_qualifier) @qualifier
-;   (#set! "priority" 128))
-
-; (alias_declaration
-;   name: (type_identifier) @type
-;   (#set! "priority" 128))
-
 ((auto) @type
   (#set! "priority" 128))
 
-;-- Qualifiers
+; Qualifiers
 
 ((type_identifier) @qualifier
   (#any-of? @qualifier
     "cast"
     "implicit"
-    "predicate"
-    "proc"
+    "predicate" 
     "PlainT"
   )
   (#set! "priority" 128))
@@ -42,41 +30,42 @@
 ((identifier) @qualifier
   (#any-of? @qualifier
     "cast"
-    "predicate"
-    "proc"
+    "predicate" 
   )
   (#set! "priority" 128))
 
-;-- Keywords
+; Keywords
 
 ((field_identifier) @keyword
   (#any-of? @keyword
-   "cexpr"
+   "cons"
+   "glob"
   )
   (#set! "priority" 128))
 
 
 ((identifier) @keyword
   (#any-of? @keyword
-    "cexpr"
-    "ceval"
-    "consfn"
+    "cons"
+    "comp"
     "declt"
+    "fn"
     "glob"
-    "intern"
+    "priv"
     "noexce"
     "onedef"
-    "where"
     "req"
+    "where"
   )
   (#set! "priority" 128))
 
 ((type_identifier) @keyword
   (#any-of? @keyword
-    "cexpr"
+    "cons"
     "declt"
+    "fn"
     "glob"
-    "intern"
+    "priv"
     "onedef"
     "persist"
     "where"
@@ -86,12 +75,12 @@
 
 ((type_qualifier) @keyword
   (#any-of? @keyword
-    "intern"
+    "priv"
     "onedef"
   )
   (#set! "priority" 128))
 
-;-- Constants
+; Constants
 
 ((identifier) @constant.special
   (#any-of? @constant.special
