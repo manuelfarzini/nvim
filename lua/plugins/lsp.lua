@@ -125,15 +125,18 @@ return {
     -- clangd
     vim.lsp.config("clangd", {
       cmd = {
-        "clangd",
+        "/opt/homebrew/opt/llvm/bin/clangd",
+        "--background-index",
         "-j=12",
         "--pretty",
+        "--query-driver=/opt/homebrew/opt/llvm/bin/clang++", -- /usr/bin/clang++"
         "--header-insertion=iwyu",
         "--completion-style=detailed",
         "--pch-storage=memory",
+        "--compile-commands-dir=build",
       },
       filetypes = { "c", "cpp", "objc", "objcpp" },
-      root_markers = { ".clangd", ".clang-format", "compile_commands.json", ".git" },
+      root_markers = { ".clangd", ".clang-format", ".git" },
       init_options = {
         clangdFileStatus = true,
         usePlaceholders = true,
