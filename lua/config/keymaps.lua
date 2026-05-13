@@ -35,6 +35,11 @@ vim.keymap.set("n", "<leader>sH", "<C-w>k<C-w>K", { desc = "Change split view to
 vim.keymap.set("n", "<leader>sV", "<C-w>k<C-w>H", { desc = "Change split view to vert" })
 vim.keymap.set("n", "<M-c>", "<C-w>c", { desc = "Close current split" })
 
+-- Quickfix
+vim.keymap.set("n", "qo", ":copen<CR>", { desc = "Quickfix" })
+vim.keymap.set("n", "qc", ":cclose<CR>", { desc = "Close quickfix" })
+
+
 -- Yank
 vim.keymap.set("n", "Y", "y$", { desc = "Yank to the end of line" })
 vim.keymap.set("n", "<leader>y", [["+y]], { desc = "Yank to +" })
