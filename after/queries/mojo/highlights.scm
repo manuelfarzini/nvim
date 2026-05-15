@@ -1,5 +1,4 @@
 (attribute attribute: (identifier) @property)
-(type (identifier) @type)
 
 ; Function calls
 
@@ -19,8 +18,16 @@
 
 ; Identifier naming conventions
 
+((identifier) @variable
+  (#match? @variable "^_*[a-z0-9_]*$")
+  (#set! priority 101))
+
+((identifier) @enum
+ (#match? @enum "^[A-Z][A-Za-z]+[_]+[A-Z][A-Za-z]+$")
+ (#set! priority 100))
+
 ((identifier) @type
- (#match? @type "^[A-Z][A-Za-z0-9_]*$")
+ (#match? @type "^[A-Z][A-Za-z0-9]*$")
  (#set! priority 100))
 
 ((identifier) @type
@@ -29,11 +36,7 @@
 
 ((identifier) @constant
   (#match? @constant "^_*[A-Z][A-Z0-9_]*$")
-  (#not-any-of? @constant
-    "U8" "U16" "U32" "U64"
-    "I8" "I16" "I32" "I64"
-    "S8" "S16" "S32" "S64"
-    "F32" "F64" "SIMD")
+  (#not-any-of? @constant "U8" "U16" "U32" "U64" "S8" "S16" "S32" "S64" "F32" "F64" "SIMD")
   (#set! priority 101))
 
 ((argument_convention) @keyword

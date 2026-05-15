@@ -22,7 +22,7 @@ return {
         -- Disable semantic tokens
         local client = vim.lsp.get_client_by_id(ev.data.client_id)
         local disabled = {
-          ["zls"] = true,
+          ["mojo"] = true,
         }
         if disabled[client.name] then client.server_capabilities.semanticTokensProvider = nil end
 
