@@ -62,6 +62,7 @@
 ((type_identifier) @keyword
   (#any-of? @keyword
     "cons"
+    "comp"
     "declt"
     "fn"
     "glob"

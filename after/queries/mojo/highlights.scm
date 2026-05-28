@@ -2,10 +2,6 @@
 
 ; Function calls
 
-(decorator) @decorator
-(decorator
-  (identifier) @decorator)
-
 (call
   function: (attribute attribute: (identifier) @function.method))
 (call
@@ -21,6 +17,11 @@
 ((identifier) @variable
   (#match? @variable "^_*[a-z0-9_]*$")
   (#set! priority 101))
+
+(decorator) @decorator
+(decorator
+  (identifier) @decorator
+  (#set! priority 102))
 
 ((identifier) @enum
  (#match? @enum "^[A-Z][A-Za-z]+[_]+[A-Z][A-Za-z]+$")
@@ -48,7 +49,7 @@
   function: (identifier) @function.builtin)
  (#match?
    @function.builtin
-   "^(abs|all|always_inline|any|ascii|bin|bool|breakpoint|bytearray|bytes|callable|chr|classmethod|compile|complex|constrained|delattr|dict|dir|divmod|enumerate|eval|exec|filter|float|format|frozenset|getattr|globals|hasattr|hash|help|hex|id|input|int|isinstance|issubclass|iter|len|list|locals|map|max|memoryview|min|next|object|oct|open|ord|pow|print|property|range|repr|reversed|round|set|setattr|slice|sorted|staticmethod|str|sum|super|tuple|type|unroll|vars|zip|__mlir_attr|__mlir_op|__mlir_type|__import__)$"))
+   "^(abs|all|any|ascii|bin|bool|breakpoint|bytearray|bytes|callable|chr|compile|complex|constrained|delattr|dict|dir|divmod|enumerate|eval|exec|filter|float|format|frozenset|getattr|globals|hasattr|hash|help|hex|id|input|int|isinstance|issubclass|iter|len|list|locals|map|max|memoryview|min|next|object|oct|open|ord|pow|print|property|range|repr|reversed|round|set|setattr|slice|sorted|staticmethod|str|sum|super|tuple|type|unroll|vars|zip|__mlir_attr|__mlir_op|__mlir_type|__import__)$"))
 
 ; Literals
 
