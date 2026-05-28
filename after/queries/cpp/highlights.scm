@@ -18,6 +18,12 @@
 
 ; Qualifiers
 
+((field_identifier) @qualifier
+  (#any-of? @qualifier
+   "predicate"
+  )
+  (#set! "priority" 128))
+
 ((type_identifier) @qualifier
   (#any-of? @qualifier
     "cast"
@@ -40,6 +46,7 @@
   (#any-of? @keyword
    "cons"
    "glob"
+   "noexce"
   )
   (#set! "priority" 128))
 
