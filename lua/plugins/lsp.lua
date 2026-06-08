@@ -13,12 +13,15 @@ return {
     -- Autocompletion
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     local ok, cmp_lsp = pcall(require, "cmp_nvim_lsp")
-    if ok then capabilities = cmp_lsp.default_capabilities(capabilities) end
+    if ok then
+      capabilities = cmp_lsp.default_capabilities(capabilities)
+    end
 
     -- Attach Function
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("PersLspConfig", {}),
       callback = function(ev)
+
         -- Disable semantic tokens
         local client = vim.lsp.get_client_by_id(ev.data.client_id)
         local disabled = {
@@ -75,13 +78,6 @@ return {
       end,
     })
 
-    -- signs
-    local signs = { Error = "✕", Warn = "!", Hint = "?", Info = "i" }
-    for type, icon in pairs(signs) do
-      local hl = "DiagnosticSign" .. type
-      vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-    end
-
     -- global
     vim.lsp.config("*", {
       capabilities = capabilities,
@@ -91,7 +87,7 @@ return {
     vim.lsp.config("mojo", {
       cmd = { "mojo-lsp-server", "-I", "." }, -- enough with pixi shell
       filetypes = { "mojo" },
-      root_markers = { "pixi.toml", ".git" }, -- pixi
+      root_markers = { "pixi.toml", ".git" },
     })
 
     -- rust analyzer
@@ -116,10 +112,6 @@ return {
       filetypes = { "faust" },
       workspace_required = true,
       root_markers = { ".faustcfg.json" },
-      -- root_dir = function(fname)
-      --   local util = require("lspconfig.util")
-      --   return util.root_pattern(".git")(fname) or vim.fn.getcwd()
-      -- end,
     })
 
     -- clangd
@@ -135,16 +127,12 @@ return {
         "--pch-storage=memory",
         "--compile-commands-dir=build",
       },
-      filetypes = { "c", "cpp", "objc", "objcpp" },
-      root_markers = { ".clangd", ".clang-format", ".git" },
+      root_markers = { ".clangd", ".git" },
       init_options = {
         clangdFileStatus = true,
         usePlaceholders = true,
         completeUnimported = true,
       },
-      on_attach = function(client, bufnr)
-        if client.supports_method("textDocument/inlayHint") then vim.lsp.inlay_hint.enable(true, { bufnr = bufnr }) end
-      end,
     })
 
     -- luals
