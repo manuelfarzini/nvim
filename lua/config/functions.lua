@@ -1,6 +1,4 @@
-------------------------------------------++
---+ Rename under cursor
-------------------------------------------++
+-- Rename under cursor across entire project
 
 local function esc_search_pat_ident(s)
   return s:gsub("\\", "\\\\")
@@ -32,7 +30,6 @@ local function rename_cword_qf(opts)
   -- populate quickfix
   vim.cmd(("silent! vimgrep /%s/gj %s"):format(pat, glob))
 
-  -- note: if hidden=false, :cdo may stop when buffers become modified
   local old_hidden = vim.o.hidden
   vim.o.hidden = true
 
@@ -56,9 +53,7 @@ vim.keymap.set("n", "<leader>RW", function()
   })
 end, { desc = "Rename word across cwd files via quickfix" })
 
-------------------------------------------++
---+ Yank diagnostic under cursors
-------------------------------------------++
+-- Yank diagnostic under cursors
 
 local function yank_diagnostic_under_cursor_to_plus()
     local bufnr = 0

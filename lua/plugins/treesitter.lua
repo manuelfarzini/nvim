@@ -6,12 +6,15 @@ return {
     dependencies = { "windwp/nvim-ts-autotag" },
 
     config = function()
+      local ts = require("nvim-treesitter")
+      local parsers = require("nvim-treesitter.parsers")
+
       -- mojo
       vim.filetype.add({
         extension = { mojo = "mojo" },
       })
       local function add_mojo_parser()
-        require("nvim-treesitter.parsers").mojo = {
+        parsers.mojo = {
           install_info = {
             url = "https://github.com/lsh/tree-sitter-mojo",
             branch = "main",
@@ -32,8 +35,6 @@ return {
         },
       })
       --
-
-      local ts = require("nvim-treesitter")
 
       ts.setup({})
 
