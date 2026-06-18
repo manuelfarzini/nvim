@@ -1,0 +1,9 @@
+vim.pack.add({
+    "https://github.com/nvim-lua/plenary.nvim",
+    "https://github.com/folke/todo-comments.nvim",
+    "https://github.com/folke/trouble.nvim",
+    "https://github.com/jvgrootveld/telescope-zoxide",
+    "https://github.com/nvim-tree/nvim-web-devicons",
+    "https://github.com/nvim-telescope/telescope-file-browser.nvim",
+    "https://github.com/nvim-telescope/telescope.nvim",
+})
