@@ -1,78 +1,47 @@
-return {
-  "stevearc/conform.nvim",
-  event = { "BufReadPre", "BufNewFile" },
-  config = function()
-    local conform = require("conform")
-    local opt = { noremap = true, silent = true, desc = "" }
+local conform = require("conform")
 
-    conform.setup({
-      formatters = {
-        mojo_format = {
-          append_args = { "-l", "90", "-h" },
-        },
-      },
+conform.setup({
+  formatters = {
+    mojo_format = {
+      append_args = { "-l", "90", "-h" },
+    },
+  },
 
-      formatters_by_ft = {
-        c = { "clang-format" },
-        cpp = { "clang-format" },
-        c3 = { "clang-format" },
-        java = { "clang-format" },
+  formatters_by_ft = {
+    c = { "clang-format" },
+    cpp = { "clang-format" },
+    c3 = { "clang-format" },
+    java = { "clang-format" },
 
-        rust = { "rustfmt" },
+    rust = { "rustfmt" },
 
-        mojo = { "mojo_format" },
+    mojo = { "mojo_format" },
 
-        html = { "prettier" },
-        json = { "prettier" },
-        xml = { "prettier" },
-        javascript = { "prettier" },
-        typescript = { "prettier" },
-        css = { "prettier" },
-        yaml = { "prettier" },
-        toml = { "prettier" },
+    html = { "prettier" },
+    json = { "prettier" },
+    xml = { "prettier" },
+    javascript = { "prettier" },
+    typescript = { "prettier" },
+    css = { "prettier" },
+    yaml = { "prettier" },
+    toml = { "prettier" },
 
-        markdown = { "markdownlint" },
-        lua = { "stylua" },
-        python = { "isort" },
-        go = { "goimports", "gofmt" },
-        php = { "phpcbf" },
+    markdown = { "markdownlint" },
+    lua = { "stylua" },
+    python = { "isort" },
+    go = { "goimports", "gofmt" },
+    php = { "phpcbf" },
 
-        ["_"] = { "trim_whitespace" },
-      },
+    ["_"] = { "trim_whitespace" },
+  },
+})
 
-      -- format_on_save = {
-      --   lsp_format = "fallback",
-      --   async = false,
-      --   timeout_ms = 500,
-      -- },
+vim.keymap.set(
+  "n", "<leader>cb", function()
+    conform.format({
+      lsp_format = "fallback",
+      async = false,
+      timeout_ms = 8000,
     })
-
-    -- opt.desc = "Conform file"
-    -- vim.keymap.set(
-    --   "n",
-    --   "<leader>cf",
-    --   function()
-    --     conform.format({
-    --       lsp_format = "fallback",
-    --       async = false,
-    --       timeout_ms = 500,
-    --     })
-    --   end,
-    --   opt
-    -- )
-
-    opt.desc = "Conform big file"
-    vim.keymap.set(
-      "n",
-      "<leader>cb",
-      function()
-        conform.format({
-          lsp_format = "fallback",
-          async = false,
-          timeout_ms = 8000,
-        })
-      end,
-      opt
-    )
-  end,
-}
+  end, { silent = true, desc = "Conform big file" }
+)

@@ -47,7 +47,7 @@ return {
     vim.api.nvim_set_keymap("n", "*", [[*<Cmd>lua require('hlslens').start()<CR>]], kopts)
     vim.api.nvim_set_keymap("n", "#", [[#<Cmd>lua require('hlslens').start()<CR>]], kopts)
     vim.api.nvim_set_keymap("n", "g*", [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
-    vim.api.nvim_set_keymap("n", "g#", [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
+    vim.api.nvim_set_keymap("n", "g#", [[g#<Cmd>lua require('khlslens').start()<CR>]], kopts)
 
     -- integration with visual-multi
     if hlslens then

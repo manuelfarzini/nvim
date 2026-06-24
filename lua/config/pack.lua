@@ -1,9 +1,70 @@
 vim.pack.add({
-    "https://github.com/nvim-lua/plenary.nvim",
-    "https://github.com/folke/todo-comments.nvim",
-    "https://github.com/folke/trouble.nvim",
-    "https://github.com/jvgrootveld/telescope-zoxide",
-    "https://github.com/nvim-tree/nvim-web-devicons",
-    "https://github.com/nvim-telescope/telescope-file-browser.nvim",
-    "https://github.com/nvim-telescope/telescope.nvim",
+  -- Core dependencies
+  "https://github.com/nvim-lua/plenary.nvim",
+  "https://github.com/nvim-tree/nvim-web-devicons",
+
+  -- UI
+  "https://github.com/stevearc/dressing.nvim",
+  "https://github.com/folke/which-key.nvim",
+  "https://github.com/nvim-lualine/lualine.nvim",
+  "https://github.com/lukas-reineke/indent-blankline.nvim",
+  "https://github.com/uga-rosa/ccc.nvim",
+
+  -- Navigation / editing
+  "https://github.com/folke/flash.nvim",
+  "https://github.com/JoosepAlviste/nvim-ts-context-commentstring", -- XXX:
+  "https://github.com/numToStr/Comment.nvim",
+  "https://github.com/kylechui/nvim-surround",
+  "https://github.com/gbprod/substitute.nvim",
+  "https://github.com/ThePrimeagen/harpoon",
+  "https://github.com/szw/vim-maximizer",
+  "https://github.com/mg979/vim-visual-multi",
+
+  -- Search / diagnostics / lists
+  "https://github.com/folke/todo-comments.nvim",
+  "https://github.com/kevinhwang91/nvim-hlslens",
+
+  -- Telescope ecosystem
+  "https://github.com/jvgrootveld/telescope-zoxide",
+  "https://github.com/nvim-telescope/telescope-file-browser.nvim",
+  "https://github.com/nvim-telescope/telescope.nvim",
+
+  -- File tree
+  "https://github.com/nvim-tree/nvim-tree.lua",
+
+  -- Treesitter
+  "https://github.com/nvim-treesitter/nvim-treesitter",
+
+  -- LSP / tooling
+  "https://github.com/neovim/nvim-lspconfig",
+  "https://github.com/williamboman/mason.nvim",
+  "https://github.com/williamboman/mason-lspconfig.nvim",
+  "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim",
+  "https://github.com/stevearc/conform.nvim",
+
+  -- Completion
+  "https://github.com/hrsh7th/nvim-cmp",
+  "https://github.com/hrsh7th/cmp-nvim-lsp",
+  "https://github.com/hrsh7th/cmp-buffer",
+  "https://github.com/hrsh7th/cmp-path",
+  "https://github.com/hrsh7th/cmp-cmdline",
+
+  -- Folding
+  "https://github.com/kevinhwang91/promise-async",
+  "https://github.com/kevinhwang91/nvim-ufo",
+
+  -- Git
+  "https://github.com/tpope/vim-fugitive",
+
+  -- Debugging
+  "https://github.com/mfussenegger/nvim-dap",
+  "https://github.com/rcarriga/nvim-dap-ui",
+  "https://github.com/nvim-neotest/nvim-nio",
+
+  -- Misc
+  "https://github.com/mbbill/undotree",
+  "https://github.com/monkoose/neocodeium",
+
+  -- Opencode
+  "https://github.com/sudo-tee/opencode.nvim",
 })

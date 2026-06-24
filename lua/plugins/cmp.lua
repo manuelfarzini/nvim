@@ -1,47 +1,43 @@
-return {
-  "hrsh7th/nvim-cmp",
-  event = "InsertEnter",
-  dependencies = {
-    "hrsh7th/cmp-buffer",
-    "hrsh7th/cmp-path",
-    -- "onsails/lspkind.nvim",
+local cmp = require("cmp")
+
+cmp.setup({
+  window = {
+    completion = cmp.config.window.bordered({ border = "rounded" }),
+    documentation = cmp.config.window.bordered({ border = "rounded" }),
   },
+  completion = {
+    completeopt = "menu,menuone,noselect",
+  },
+  snippet = {
+    expand = function(_) end,
+  },
+  mapping = cmp.mapping.preset.insert({
+    ["<M-k>"] = cmp.mapping.select_prev_item(),
+    ["<M-j>"] = cmp.mapping.select_next_item(),
+    ["<M-Space>"] = cmp.mapping.complete(),
+    ["<M-e>"] = cmp.mapping.abort(),
+    ["<CR>"] = cmp.mapping.confirm({ select = false }),
+  }),
 
-  config = function()
-    local cmp = require("cmp")
-    -- local lspkind = require("lspkind")
+  sources = cmp.config.sources({
+    { name = "nvim_lsp" },
+    { name = "buffer" },
+    { name = "path" },
+  }),
+})
 
-    cmp.setup({
-      window = {
-        completion = cmp.config.window.bordered({ border = "rounded" }),
-        documentation = cmp.config.window.bordered({ border = "rounded" }),
-      },
-      completion = {
-        completeopt = "menu,menuone,noselect",
-      },
-      snippet = {
-        expand = function(_) end,
-      },
-      mapping = cmp.mapping.preset.insert({
-        ["<M-k>"] = cmp.mapping.select_prev_item(),
-        ["<M-j>"] = cmp.mapping.select_next_item(),
-        ["<M-Space>"] = cmp.mapping.complete(),
-        ["<M-e>"] = cmp.mapping.abort(),
-        ["<CR>"] = cmp.mapping.confirm({ select = false }),
-      }),
+cmp.setup.cmdline(":", {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    { name = "path" },
+  }, {
+    { name = "cmdline" },
+  }),
+})
 
-      sources = cmp.config.sources({
-        { name = "nvim_lsp" },
-        { name = "buffer" },
-        { name = "path" },
-      }),
-
-      -- formatting = {
-      --   format = lspkind.cmp_format({
-      --     maxwidth = 50,
-      --     ellipsis_char = "...",
-      --   }),
-      -- },
-    })
-  end,
-}
+cmp.setup.cmdline({ "/", "?" }, {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = {
+    { name = "buffer" },
+  },
+})
