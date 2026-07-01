@@ -1,5 +1,6 @@
 ---@diagnostic disable: undefined-global
---- General
+
+-- General
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 vim.o.cmdheight = 0
@@ -11,7 +12,7 @@ vim.g.have_nerd_font = false
 vim.lsp.log.set_level("OFF")
 --
 
---- Miscellaneous
+-- Miscellaneous
 vim.opt.list = false
 vim.opt.scrolloff = 8
 vim.opt.showmode = false
@@ -19,20 +20,20 @@ vim.opt.inccommand = "split"
 vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
 --
 
---- Visual settings
+-- Visual settings
 vim.opt.cursorline = true
 vim.opt.termguicolors = true
 vim.opt.signcolumn = "yes"
 --
 
---- Search settings
+-- Search settings
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.hlsearch = true
 vim.opt.incsearch = true
 --
 
---- Editor
+-- Editor
 vim.opt.relativenumber = true
 vim.opt.number = true
 vim.opt.formatoptions:remove("o")
@@ -72,11 +73,11 @@ set_indent("mojo", 4, 4)
 set_indent("scm", 2, 2)
 --
 
---- Hover
+-- Hover
 vim.o.winborder = "rounded"
 --
 
---- Cursor
+-- Cursor
 ---@diagnostic disable-next-line: missing-fields
 vim.opt.guicursor = table.concat({
   "n-v-c:block",
@@ -89,28 +90,28 @@ vim.opt.guicursor = table.concat({
 }, ",")
 --
 
---- Restore settings
+-- Restore settings
 vim.opt.undofile = true
 vim.opt.undodir = vim.fn.expand("~/.config/nvim/undodir/")
 vim.opt.undolevels = 400
 vim.opt.swapfile = false
 --
 
---- Backspace
+-- Backspace
 vim.opt.backspace = "indent,eol,start"
 --
 
---- Split windows
+-- Split windows
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 --
 
---- Timeout
+-- Timeout
 vim.opt.timeout = true
 vim.opt.timeoutlen = 300
 --
 
---- Fillchars
+-- Fillchars
 ---@diagnostic disable-next-line: missing-fields
 vim.opt.fillchars = {
   vert = "│",
@@ -122,6 +123,6 @@ vim.opt.fillchars = {
   verthoriz = "┼",
 }
 
---- Disable some plugin settings
+-- Disable some plugin settings
 vim.fn.sign_unplace("UfoPreviewCursorLine")
 --

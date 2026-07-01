@@ -13,15 +13,12 @@ return {
     -- Autocompletion
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     local ok, cmp_lsp = pcall(require, "cmp_nvim_lsp")
-    if ok then
-      capabilities = cmp_lsp.default_capabilities(capabilities)
-    end
+    if ok then capabilities = cmp_lsp.default_capabilities(capabilities) end
 
     -- Attach Function
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("PersLspConfig", {}),
       callback = function(ev)
-
         -- Disable semantic tokens
         local client = vim.lsp.get_client_by_id(ev.data.client_id)
         local disabled = {
@@ -67,8 +64,30 @@ return {
         opts.desc = "Telescope LSP type definitions"
         vim.keymap.set("n", "gT", "<Cmd>Telescope lsp_type_definitions<CR>", opts)
 
-        opts.desc = "Diagnostics hoover under cursor"
-        vim.keymap.set("n", "<leader>d", function() vim.diagnostic.open_float() end, opts)
+        -- vim.keymap.set("n", "<leader>d", function()
+        --   vim.diagnostic.open_float({
+        --     border = "rounded",
+        --     source = true,
+        --     max_width = 100,
+        --     max_height = 25,
+        --   })
+        -- end, { desc = "Open diagnostic float" })
+
+        opts.desc = "Diagnostics hover under cursor"
+        vim.keymap.set(
+          "n",
+          "<leader>d",
+          function()
+            vim.diagnostic.open_float({
+              scope = "line",
+              border = "rounded",
+              source = "always",
+              max_width = math.floor(vim.o.columns * 0.7),
+              max_height = math.floor(vim.o.lines * 0.5),
+            })
+          end,
+          opts
+        )
 
         opts.desc = "Previous diagnostic"
         vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, opts)
