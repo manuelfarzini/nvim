@@ -14,8 +14,10 @@ cmp.setup({
   mapping = cmp.mapping.preset.insert({
     ["<M-k>"] = cmp.mapping.select_prev_item(),
     ["<M-j>"] = cmp.mapping.select_next_item(),
-    ["<M-Space>"] = cmp.mapping.complete(),
-    ["<M-e>"] = cmp.mapping.abort(),
+    ["<M-Space>"] = cmp.mapping(function()
+        if cmp.visible() then cmp.abort()
+        else cmp.complete() end
+    end),
     ["<CR>"] = cmp.mapping.confirm({ select = false }),
   }),
 
@@ -27,15 +29,16 @@ cmp.setup({
 })
 
 cmp.setup.cmdline(":", {
+  completion = { autocomplete = false, },
   mapping = cmp.mapping.preset.cmdline(),
-  sources = cmp.config.sources({
-    { name = "path" },
-  }, {
-    { name = "cmdline" },
-  }),
+  sources = cmp.config.sources(
+    { { name = "path" }, },
+    { { name = "cmdline" }, }
+  ),
 })
 
 cmp.setup.cmdline({ "/", "?" }, {
+  completion = { autocomplete = false, },
   mapping = cmp.mapping.preset.cmdline(),
   sources = {
     { name = "buffer" },

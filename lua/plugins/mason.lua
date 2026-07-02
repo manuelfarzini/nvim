@@ -1,61 +1,27 @@
----@diagnostic disable: undefined-global
-return {
-  "mason-org/mason.nvim",
-  build = ":MasonUpdate",
-  dependencies = {
-    "mason-org/mason-lspconfig.nvim",
-    "WhoIsSethDaniel/mason-tool-installer.nvim",
-    "neovim/nvim-lspconfig",
+require("mason").setup({
+  ui = {
+    border = "rounded",
+    backdrop = 100,
+    width = 0.85,
+    height = 0.95,
+    icons = {
+      package_installed = "",
+      package_pending = "",
+      package_uninstalled = "",
+    },
   },
+})
 
-  config = function()
-    require("mason").setup({
-      ui = {
-        border = "rounded",
-        backdrop = 100,
-        width = 0.85,
-        height = 0.95,
-        icons = {
-          package_installed = "",
-          package_pending = "",
-          package_uninstalled = "",
-        },
-      },
-    })
+require("mason-lspconfig").setup({
+  ensure_installed = {
+    "bashls", "lua_ls", "rust_analyzer", "ols", "gopls", "zls", "matlab_ls", "pyright",
+  },
+  automatic_installation = true,
+  automatic_setup = false,
+})
 
-    ---@diagnostic disable-next-line: missing-fields
-    require("mason-lspconfig").setup({
-      ensure_installed = {
-        "bashls",
-        "lua_ls",
-        "rust_analyzer",
-        "ols",
-        "gopls",
-        "zls",
-        "matlab_ls",
-        -- "jdtls",
-        "pyright",
-        -- "html",
-        -- "cssls",
-        -- "intelephense",
-        -- "graphql",
-      },
-      automatic_installation = true,
-      automatic_setup = false,
-    })
-
-    require("mason-tool-installer").setup({
-      ensure_installed = {
-        "isort",
-        "markdownlint",
-        "phpcbf",
-        "prettier",
-        "stylua",
-        -- "eslint_d",
-        -- "codelldb",
-      },
-      auto_update = true,
-      run_on_start = true,
-    })
-  end,
-}
+require("mason-tool-installer").setup({
+  ensure_installed = { "isort", "markdownlint", "phpcbf", "prettier", "stylua", "codelldb" },
+  auto_update = true,
+  run_on_start = true,
+})

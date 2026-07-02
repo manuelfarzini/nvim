@@ -1,280 +1,230 @@
-return {
-  "neovim/nvim-lspconfig",
-  event = { "BufReadPre", "BufNewFile" },
-  dependencies = {
-    "mason.nvim",
-    "mason-lspconfig.nvim",
-    "hrsh7th/cmp-nvim-lsp",
-    { "antosha417/nvim-lsp-file-operations", config = true },
-    { "folke/neodev.nvim", opts = {} },
-  },
+-- stylua: ignore start
 
-  config = function()
-    -- Autocompletion
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    local ok, cmp_lsp = pcall(require, "cmp_nvim_lsp")
-    if ok then capabilities = cmp_lsp.default_capabilities(capabilities) end
+-- Autocompletion
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+local ok, cmp_lsp = pcall(require, "cmp_nvim_lsp")
+if ok then capabilities = cmp_lsp.default_capabilities(capabilities) end
 
-    -- Attach Function
-    vim.api.nvim_create_autocmd("LspAttach", {
-      group = vim.api.nvim_create_augroup("PersLspConfig", {}),
-      callback = function(ev)
-        -- Disable semantic tokens
-        local client = vim.lsp.get_client_by_id(ev.data.client_id)
-        local disabled = {
-          ["mojo"] = true,
-        }
-        if disabled[client.name] then client.server_capabilities.semanticTokensProvider = nil end
+-- Attach Function
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = vim.api.nvim_create_augroup("PersLspConfig", {}),
+  callback = function(ev)
+    -- Disable semantic tokens
+    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+    local disabled = {
+      ["mojo"] = true,
+    }
+    if disabled[client.name] then client.server_capabilities.semanticTokensProvider = nil end
 
-        -- Diagnostics format
-        -- WARN: this solution may be fragile
-        local code_persistent = ""
-        vim.diagnostic.config({
-          float = {
-            border = "rounded",
-            source = "if_many",
-            header = "",
-            max_width = 60,
-            wrap = true,
-            severity_sort = true,
-            format = function(diagnostic)
-              code_persistent = diagnostic.code or code_persistent
-              diagnostic.code = nil
-              return string.format("%s [%s]\n", diagnostic.message, code_persistent)
-            end,
-          },
-        })
-
-        -- Keymaps
-
-        local opts = { buffer = ev.buf, silent = true }
-
-        opts.desc = "Restart LSP"
-        vim.keymap.set("n", "<leader>lr", "<Cmd>lsp restart<CR>", opts)
-
-        opts.desc = "Go to definition"
-        vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-
-        opts.desc = "Telescope LSP definitions"
-        vim.keymap.set("n", "gD", "<Cmd>Telescope lsp_definitions<CR>", opts)
-
-        opts.desc = "Show LSP references"
-        vim.keymap.set("n", "gR", "<Cmd>Telescope lsp_references<CR>", opts)
-
-        opts.desc = "Telescope LSP type definitions"
-        vim.keymap.set("n", "gT", "<Cmd>Telescope lsp_type_definitions<CR>", opts)
-
-        -- vim.keymap.set("n", "<leader>d", function()
-        --   vim.diagnostic.open_float({
-        --     border = "rounded",
-        --     source = true,
-        --     max_width = 100,
-        --     max_height = 25,
-        --   })
-        -- end, { desc = "Open diagnostic float" })
-
-        opts.desc = "Diagnostics hover under cursor"
-        vim.keymap.set(
-          "n",
-          "<leader>d",
-          function()
-            vim.diagnostic.open_float({
-              scope = "line",
-              border = "rounded",
-              source = "always",
-              max_width = math.floor(vim.o.columns * 0.7),
-              max_height = math.floor(vim.o.lines * 0.5),
-            })
-          end,
-          opts
-        )
-
-        opts.desc = "Previous diagnostic"
-        vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, opts)
-
-        opts.desc = "Next diagnostic"
-        vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, opts)
-      end,
-    })
-
-    -- global
-    vim.lsp.config("*", {
-      capabilities = capabilities,
-    })
-
-    -- mojo-lsp
-    vim.lsp.config("mojo", {
-      cmd = { "mojo-lsp-server", "-I", "." }, -- enough with pixi shell
-      filetypes = { "mojo" },
-      root_markers = { "pixi.toml", ".git" },
-    })
-
-    -- rust analyzer
-    vim.lsp.config("rust_analyzer", {
-      filetypes = { "rust" },
-      settings = {
-        ["rust_analyzer"] = {
-          checkOnSave = true,
-          check = {
-            command = "check",
-          },
-          cargo = {
-            allFeatures = true,
-          },
-        },
+    -- Diagnostics format
+    -- WARN: this solution may be fragile
+    local code_persistent = ""
+    vim.diagnostic.config({
+      float = {
+        border = "rounded",
+        source = "if_many",
+        header = "",
+        max_width = 60,
+        wrap = true,
+        severity_sort = true,
+        format = function(diagnostic)
+          code_persistent = diagnostic.code or code_persistent
+          diagnostic.code = nil
+          return string.format("%s [%s]\n", diagnostic.message, code_persistent)
+        end,
       },
     })
 
-    -- faust-lsp
-    vim.lsp.config("faustlsp", {
-      cmd = { "faustlsp" },
-      filetypes = { "faust" },
-      workspace_required = true,
-      root_markers = { ".faustcfg.json" },
-    })
+    -- Keymaps
 
-    -- clangd
-    vim.lsp.config("clangd", {
-      cmd = {
-        "/opt/homebrew/opt/llvm/bin/clangd",
-        "--background-index",
-        "-j=12",
-        "--pretty",
-        "--query-driver=/opt/homebrew/opt/llvm/bin/clang++", -- /usr/bin/clang++"
-        "--header-insertion=iwyu",
-        "--completion-style=detailed",
-        "--pch-storage=memory",
-        "--compile-commands-dir=build",
-      },
-      root_markers = { ".clangd", ".git" },
-      init_options = {
-        clangdFileStatus = true,
-        usePlaceholders = true,
-        completeUnimported = true,
-      },
-    })
+    local opts = { buffer = ev.buf, silent = true }
 
-    -- luals
-    vim.lsp.config("lua_ls", {
-      settings = {
-        Lua = {
-          runtime = { version = "LuaJIT" },
-          diagnostics = { globals = { "vim" } },
-          workspace = { checkThirdParty = false },
-          telemetry = { enable = false },
-          completion = { callSnippet = "Replace" },
-        },
-      },
-    })
+    opts.desc = "Restart LSP"
+    vim.keymap.set("n", "<leader>lr", "<Cmd>lsp restart<CR>", opts)
 
-    -- -- ltex
-    -- vim.lsp.config("ltex", {
-    --   filetypes = { "markdown", "tex", "text" },
-    --   settings = {
-    --     ltex = {
-    --       language = "en-US",
-    --       checkFrequency = "manual",
-    --       enabledRules = {},
-    --       disabledRules = { "SPELLING" },
-    --     },
-    --   },
-    -- })
+    opts.desc = "Go to definition"
+    vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
 
-    -- pyright
-    vim.lsp.config("pyright", {
-      settings = {
-        python = {
-          analysis = {
-            typeCheckingMode = "off",
-            autoSearchPaths = true,
-            diagnosticMode = "openFilesOnly",
-          },
-        },
-      },
-    })
+    opts.desc = "Telescope LSP definitions"
+    vim.keymap.set("n", "gD", "<Cmd>Telescope lsp_definitions<CR>", opts)
 
-    -- zls
-    vim.lsp.config("zls", {
-      settings = {
-        zsl = {
-          warn_style = true,
-          enable_snippets = true,
-          enable_inlay_hints = true,
-        },
-      },
-    })
+    opts.desc = "Show LSP references"
+    vim.keymap.set("n", "gR", "<Cmd>Telescope lsp_references<CR>", opts)
 
-    -- jdtls
-    -- vim.lsp.config("jdtls", {
-    --   filetypes = { "java" },
-    --   handlers = {
-    --     ["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
-    --       if not result then return end
-    --       result.diagnostics = vim.tbl_filter(
-    --         function(d)
-    --           return not d.message:match("TODO") and not d.message:match("FIXME") and not d.message:match("XXX")
-    --         end,
-    --         result.diagnostics
-    --       )
-    --       return vim.lsp.handlers["textDocument/publishDiagnostics"](err, result, ctx, config)
-    --     end,
-    --   },
-    -- })
+    opts.desc = "Telescope LSP type definitions"
+    vim.keymap.set("n", "gT", "<Cmd>Telescope lsp_type_definitions<CR>", opts)
 
-    -- go
-    vim.lsp.config("gopls", {
-      cmd = { "gopls" },
-      filetypes = { "go", "gomod" },
-    })
+    vim.keymap.set("n", "<leader>d", function()
+      vim.diagnostic.open_float({
+        scope = "line",
+        border = "rounded",
+        source = "always",
+        max_width = math.floor(vim.o.columns * 0.8),
+        max_height = math.floor(vim.o.lines * 0.4),
+      })
+    end, opts)
 
-    -- bashls
-    vim.lsp.config("bashls", {
-      filetypes = { "sh" },
-    })
+    opts.desc = "Previous diagnostic"
+    vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, opts)
 
-    -- matlab
-    vim.lsp.config("matlab_ls", {
-      filetypes = { "matlab" },
-      root_dir = function() return vim.fn.getcwd() end,
-    })
-
-    vim.lsp.config("emmet_ls", {
-      -- stylua: ignore start
-      filetypes = {
-        "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte",
-      },
-      -- stylua: ignore end
-    })
-
-    -- php
-    vim.lsp.config("intelephense", {
-      settings = {
-        intelephense = {
-          -- stylua: ignore start
-          stubs = {
-            "bcmath", "bz2", "calendar", "Core", "ctype", "curl", "date", "dom", "fileinfo",
-            "filter", "gd", "gettext", "hash", "iconv", "json", "libxml", "mbstring", "mysqli",
-            "pcre", "PDO", "pdo_mysql", "Phar", "readline", "Reflection", "session",
-            "SimpleXML", "soap", "sockets", "SPL", "standard", "tokenizer", "xml", "xmlreader",
-            "xmlwriter", "zip", "zlib",
-          },
-          -- stylua: ignore end
-          diagnostics = { enable = true },
-          completion = {
-            fullyQualifyGlobalConstantsAndFunctions = true,
-            triggerParameterHints = true,
-          },
-          files = { maxSize = 5000000 },
-        },
-      },
-    })
-
-    -- enable
-    -- stylua: ignore start
-    vim.lsp.enable({ "clangd", "ols", "lua_ls", "faustlsp", "mojo", "rust_analyzer"
-      -- "zls", "pyright", "jdtls", "gopls", "bashls", "matlab_ls",
-      -- "emmet_ls", "intelephense",
-    })
-    --stylua :ignore end
+    opts.desc = "Next diagnostic"
+    vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, opts)
   end,
-}
+})
+
+-- global
+vim.lsp.config("*", {
+  capabilities = capabilities,
+})
+
+-- mojo-lsp
+vim.lsp.config("mojo", {
+  cmd = { "mojo-lsp-server", "-I", "." }, -- enough with pixi shell
+  filetypes = { "mojo" },
+  root_markers = { "pixi.toml", ".git" },
+})
+
+-- rust analyzer
+vim.lsp.config("rust_analyzer", {
+  filetypes = { "rust" },
+  settings = {
+    ["rust_analyzer"] = {
+      checkOnSave = true,
+      check = {
+        command = "check",
+      },
+      cargo = {
+        allFeatures = true,
+      },
+    },
+  },
+})
+
+-- faust-lsp
+vim.lsp.config("faustlsp", {
+  cmd = { "faustlsp" },
+  filetypes = { "faust" },
+  workspace_required = true,
+  root_markers = { ".faustcfg.json" },
+})
+
+-- clangd
+vim.lsp.config("clangd", {
+  cmd = {
+    "/opt/homebrew/opt/llvm/bin/clangd",
+    "--background-index",
+    "-j=12",
+    "--pretty",
+    "--query-driver=/opt/homebrew/opt/llvm/bin/clang++", -- /usr/bin/clang++"
+    "--header-insertion=iwyu",
+    "--completion-style=detailed",
+    "--pch-storage=memory",
+    "--compile-commands-dir=build",
+  },
+  root_markers = { ".clangd", ".git" },
+  init_options = {
+    clangdFileStatus = true,
+    usePlaceholders = true,
+    completeUnimported = true,
+  },
+})
+
+-- luals
+vim.lsp.config("lua_ls", {
+  settings = {
+    Lua = {
+      runtime = { version = "LuaJIT" },
+      diagnostics = { globals = { "vim" } },
+      workspace = { checkThirdParty = false },
+      telemetry = { enable = false },
+      completion = { callSnippet = "Replace" },
+    },
+  },
+})
+
+-- pyright
+vim.lsp.config("pyright", {
+  settings = {
+    python = {
+      analysis = {
+        typeCheckingMode = "off",
+        autoSearchPaths = true,
+        diagnosticMode = "openFilesOnly",
+      },
+    },
+  },
+})
+
+-- zls
+vim.lsp.config("zls", {
+  settings = {
+    zsl = {
+      warn_style = true,
+      enable_snippets = true,
+      enable_inlay_hints = true,
+    },
+  },
+})
+
+-- jdtls
+vim.lsp.config("jdtls", {
+  filetypes = { "java" },
+  handlers = {
+    ["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
+      if not result then return end
+      result.diagnostics = vim.tbl_filter(
+        function(d)
+          return not d.message:match("TODO") and not d.message:match("FIXME") and not d.message:match("XXX")
+        end,
+        result.diagnostics
+      )
+      return vim.lsp.handlers["textDocument/publishDiagnostics"](err, result, ctx, config)
+    end,
+  },
+})
+
+-- go
+vim.lsp.config("gopls", {
+  cmd = { "gopls" },
+  filetypes = { "go", "gomod" },
+})
+
+-- bashls
+vim.lsp.config("bashls", {
+  filetypes = { "sh" },
+})
+
+-- matlab
+vim.lsp.config("matlab_ls", {
+  filetypes = { "matlab" },
+  root_dir = function() return vim.fn.getcwd() end,
+})
+
+vim.lsp.config("emmet_ls", {
+  filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte" }
+})
+
+-- php
+vim.lsp.config("intelephense", {
+  settings = {
+    intelephense = {
+      stubs = {
+        "bcmath", "bz2", "calendar", "Core", "ctype", "curl", "date", "dom", "fileinfo", "filter", "gd", "gettext", "zip",
+        "hash", "iconv", "json", "libxml", "mbstring", "mysqli", "pcre", "PDO", "pdo_mysql", "Phar", "readline", "xmlwriter",
+        "Reflection", "session", "SimpleXML", "soap", "sockets", "SPL", "standard", "tokenizer", "xml", "xmlreader", "zlib",
+      },
+      diagnostics = { enable = true },
+      completion = {
+        fullyQualifyGlobalConstantsAndFunctions = true,
+        triggerParameterHints = true,
+      },
+      files = { maxSize = 5000000 },
+    },
+  },
+})
+
+vim.lsp.enable({ "clangd", "ols", "lua_ls", "faustlsp", "mojo", "rust_analyzer" })
+-- "zls", "pyright", "jdtls", "gopls", "bashls", "matlab_ls",
+-- "emmet_ls", "intelephense",
+
+-- stylua: ignore end

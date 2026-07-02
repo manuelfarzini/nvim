@@ -1,6 +1,1 @@
-return {
-  "szw/vim-maximizer",
-  keys = {
-    { "<leader>sm", "<Cmd>MaximizerToggle<CR>", desc = "maximize split" },
-  },
-}
+vim.keymap.set("n", "<leader>sm", "<Cmd>MaximizerToggle<CR>", { silent = true, desc = "Maximize split", })

@@ -1,6 +1,5 @@
 local telescope = require("telescope")
 local actions = require("telescope.actions")
-local fb_actions = telescope.extensions.file_browser.actions
 
 telescope.setup({
   defaults = vim.tbl_extend("force", require("telescope.themes").get_dropdown(), {
@@ -54,8 +53,6 @@ telescope.setup({
       i = {
         ["<C-k>"] = actions.move_selection_previous,
         ["<C-j>"] = actions.move_selection_next,
-        ["<C-p>"] = require("telescope.actions.layout").toggle_preview,
-        ["<C-h>"] = fb_actions.goto_home_dir,
 
         ["<M-k>"] = actions.preview_scrolling_up,
         ["<M-j>"] = actions.preview_scrolling_down,
@@ -69,7 +66,7 @@ telescope.setup({
 
   pickers = {
     live_grep = {
-      disable_devicons = true,
+      disable_devicons = false,
       color_devicons = false,
       hidden = true,
       additional_args = { "--hidden" },
@@ -102,12 +99,6 @@ telescope.setup({
   },
 
   extensions = {
-    file_browser = {
-      prompt_title = "File browser",
-      disable_devicons = false,
-      color_devicons = false,
-      hidden = { file_browser = true, folder_browser = true },
-    },
     zoxide = {
       prompt_title = "Z Paths",
       mappings = {
@@ -119,7 +110,6 @@ telescope.setup({
   },
 })
 
-telescope.load_extension("file_browser")
 telescope.load_extension("zoxide")
 
 local key = vim.keymap
@@ -130,7 +120,6 @@ key.set("n", "<leader>fs", "<Cmd>Telescope live_grep<CR>", { desc = "Find string
 key.set("n", "<leader>fu", "<Cmd>Telescope grep_string<CR>", { desc = "Find under" })
 key.set("n", "<leader>fo", "<Cmd>Telescope buffers<CR>", { desc = "Find open buffers" })
 key.set("n", "<leader>ft", "<Cmd>TodoTelescope<CR>", { desc = "Find todos" })
-key.set("n", "<leader>fb", "<Cmd>Telescope file_browser<CR>", { desc = "File browser" })
 key.set("n", "<leader>fz", telescope.extensions.zoxide.list, { desc = "Zoxide Paths" })
 
 vim.api.nvim_create_user_command(

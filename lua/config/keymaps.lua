@@ -5,7 +5,7 @@ vim.keymap.set("n", "N", "Nzzzv")
 
 vim.keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "No highlight" })
 
-vim.keymap.set("n", "gp", "`[v`]", { noremap = true, desc = "Select pasted" })
+vim.keymap.set("n", "gp", "`[v`]", { desc = "Select pasted" })
 vim.keymap.set("n", "<leader><leader>a", "ggVG", { desc = "Select all" })
 
 -- Invert jumplist
@@ -35,10 +35,12 @@ vim.keymap.set("n", "<leader>sH", "<C-w>k<C-w>K", { desc = "Change split view to
 vim.keymap.set("n", "<leader>sV", "<C-w>k<C-w>H", { desc = "Change split view to vert" })
 vim.keymap.set("n", "<M-c>", "<C-w>c", { desc = "Close current split" })
 
+-- Undotree
+vim.api.nvim_set_keymap("n", "<leader>ut", "<Cmd>Undotree<CR>", { silent = true, desc = "Undotree toggle" })
+
 -- Quickfix
 vim.keymap.set("n", "qo", ":copen<CR>", { desc = "Quickfix" })
 vim.keymap.set("n", "qc", ":cclose<CR>", { desc = "Close quickfix" })
-
 
 -- Yank
 vim.keymap.set("n", "Y", "y$", { desc = "Yank to the end of line" })
@@ -69,12 +71,8 @@ vim.keymap.set("v", "<leader>d", delete_to_plus__preserve_quote_and_zero_regs__v
 })
 
 -- Snippets
-
-vim.keymap.set(
-  "n",
-  "<leader>id",
+vim.keymap.set( "n", "<leader>id",
   "o/*<Esc>a<Space><Esc>40.a*<Esc>o*<Esc>o*/<Esc>0xkxli<Space><Esc>lR",
-  { silent = true, noremap = true, desc = "Insert spec" }
+  { silent = true, desc = "Insert spec" }
 )
-
-vim.keymap.set("n", "<leader>is", "o**/<Esc>O/**<Esc>jO<Tab>", { silent = true, noremap = true, desc = "Insert spec" })
+vim.keymap.set("n", "<leader>is", "o**/<Esc>O/**<Esc>jO<Tab>", { silent = true, desc = "Insert spec" })

@@ -1,4 +1,4 @@
---+ Highligh on yank
+-- Highligh on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
   desc = "Yank highlight",
   pattern = "*",
@@ -10,11 +10,11 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 })
 --
 
---+ Diagnostics snoozing
+-- Diagnostics snoozing
 vim.diagnostic.config({
   virtual_text = true,
   signs = true,
-  underline = false,
+  underline = true,
   update_in_insert = false,
 })
 local diagnostics_active = true
@@ -40,7 +40,7 @@ vim.diagnostic.show = function(bufnr, namespace, diagnostics, opts)
 end
 --
 
---+ Match brackets
+-- Match brackets
 vim.api.nvim_create_augroup("MatchBrackets", { clear = true })
 vim.api.nvim_create_autocmd("FileType", {
   group = "MatchBrackets",
@@ -48,7 +48,7 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function() vim.opt_local.matchpairs:append("<:>") end,
 })
 
---+ Setup repo
+-- Setup repo
 vim.api.nvim_create_user_command("Setup", function()
     vim.env.GIT_DIR = vim.fn.expand("~/.setup")
     vim.env.GIT_WORK_TREE = vim.fn.expand("~")
