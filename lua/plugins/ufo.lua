@@ -1,55 +1,74 @@
----@diagnostic disable: unused-local, missing-fields
 return {
   "kevinhwang91/nvim-ufo",
   dependencies = {
     "kevinhwang91/promise-async",
   },
   config = function()
+
+    local ufo = require("ufo")
+
     vim.o.foldlevel = 99
     vim.o.foldlevelstart = 99
     vim.o.foldenable = true
 
-    --- Keymaps
-    local opts = { silent = true, noremap = true, desc = "" }
+    -- XXX: can I do this with less lines?
 
-    opts.desc = "Open all folds"
-    vim.keymap.set("n", "zR", require("ufo").openAllFolds, opts)
+    local max_foldlevel = 99
 
-    opts.desc = "Close all folds"
-    vim.keymap.set("n", "zM", require("ufo").closeAllFolds, opts)
+    local function get_ufo_foldlevel()
+      if vim.w.ufo_foldlevel == nil then
+        vim.w.ufo_foldlevel = max_foldlevel
+      end
+      return vim.w.ufo_foldlevel
+    end
+    local function set_ufo_foldlevel(level)
+      vim.w.ufo_foldlevel = math.max(0, math.min(max_foldlevel, level))
+      ufo.closeFoldsWith(vim.w.ufo_foldlevel)
+    end
 
-    opts.desc = "Fold less"
-    vim.keymap.set("n", "zr", require("ufo").openFoldsExceptKinds, opts)
+    vim.keymap.set("n", "zR", function()
+      vim.w.ufo_foldlevel = max_foldlevel
+      ufo.openAllFolds()
+    end, { silent = true, desc = "Open all folds" })
 
-    opts.desc = "Fold more"
-    vim.keymap.set("n", "zm", require("ufo").closeFoldsWith, opts)
+    vim.keymap.set("n", "zM", function()
+      vim.w.ufo_foldlevel = 0
+      ufo.closeAllFolds()
+    end, { silent = true, desc = "Close all folds" })
 
-    opts.desc = "Fold functions"
+    vim.keymap.set("n", "zm", function()
+      set_ufo_foldlevel(get_ufo_foldlevel() - vim.v.count1)
+    end, { silent = true, desc = "Fold more" })
+
+    vim.keymap.set("n", "zr", function()
+      set_ufo_foldlevel(get_ufo_foldlevel() + vim.v.count1)
+    end, { silent = true, desc = "Fold less" })
+
+    -- XXX:
+
     vim.keymap.set("n", "zf", function()
       require("ufo").openFoldsExceptKinds({
         "function_definition", -- cpp
         "preproc_function_def", -- cpp
       })
-    end, opts)
+    end, { silent = true, desc = "Fold functions" })
 
-    opts.desc = "Fold functions and templates"
     vim.keymap.set("n", "zF", function()
       require("ufo").openFoldsExceptKinds({
         "template_declaration", -- cpp
         "function_definition", -- cpp
         "preproc_function_def", -- cpp
       })
-    end, opts)
+    end, { silent = true, desc = "Fold functions and templates" })
 
-    opts.desc = "Fold specifications"
     vim.keymap.set("n", "zs", function()
       require("ufo").openFoldsExceptKinds({
         "comment", -- cpp
       })
-    end, opts)
+    end, { silent = true, desc = "Fold comments" })
 
     --- Handle multi-line comments
-    local fold_virt_text_handler = function(virtText, lnum, endLnum, width, truncate)
+    local fold_virt_text_handler = function(virtText, lnum, endLnum, _, _)
       local newVirtText = {}
       local folded_lines = endLnum - lnum
       local suffix = ("  %d "):format(folded_lines)
