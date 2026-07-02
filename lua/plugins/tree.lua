@@ -55,7 +55,7 @@ require("nvim-tree").setup({
       show = {
         file = false,
         folder = false,
-        git = true,
+        git = false,
       },
       git_placement = "after",
       glyphs = {

@@ -66,24 +66,24 @@ telescope.setup({
 
   pickers = {
     live_grep = {
-      disable_devicons = false,
+      disable_devicons = true,
       color_devicons = false,
       hidden = true,
       additional_args = { "--hidden" },
     },
 
     find_files = {
-      disable_devicons = false,
+      disable_devicons = true,
       hidden = true,
       follow = true,
     },
 
     oldfiles = {
-      disable_devicons = false,
+      disable_devicons = true,
     },
 
     grep_string = {
-      disable_devicons = false,
+      disable_devicons = true,
       color_devicons = false,
     },
 
