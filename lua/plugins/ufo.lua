@@ -4,9 +4,7 @@ vim.o.foldlevel = 99
 vim.o.foldlevelstart = 99
 vim.o.foldenable = true
 
--- XXX: can I do this with less lines?
-
-local max_foldlevel = 99
+local max_foldlevel = 5
 
 local function get_ufo_foldlevel()
   if vim.w.ufo_foldlevel == nil then
@@ -14,6 +12,7 @@ local function get_ufo_foldlevel()
   end
   return vim.w.ufo_foldlevel
 end
+
 local function set_ufo_foldlevel(level)
   vim.w.ufo_foldlevel = math.max(0, math.min(max_foldlevel, level))
   ufo.closeFoldsWith(vim.w.ufo_foldlevel)
@@ -30,11 +29,11 @@ vim.keymap.set("n", "zM", function()
 end, { silent = true, desc = "Close all folds" })
 
 vim.keymap.set("n", "zm", function()
-  set_ufo_foldlevel(get_ufo_foldlevel() - vim.v.count1)
+  set_ufo_foldlevel(get_ufo_foldlevel() - 1)
 end, { silent = true, desc = "Fold more" })
 
 vim.keymap.set("n", "zr", function()
-  set_ufo_foldlevel(get_ufo_foldlevel() + vim.v.count1)
+  set_ufo_foldlevel(get_ufo_foldlevel() + 1)
 end, { silent = true, desc = "Fold less" })
 
 vim.keymap.set("n", "zf", function()
@@ -43,14 +42,6 @@ vim.keymap.set("n", "zf", function()
     "preproc_function_def", -- cpp
   })
 end, { silent = true, desc = "Fold functions" })
-
-vim.keymap.set("n", "zF", function()
-  ufo.openFoldsExceptKinds({
-    "template_declaration", -- cpp
-    "function_definition", -- cpp
-    "preproc_function_def", -- cpp
-  })
-end, { silent = true, desc = "Fold functions and templates" })
 
 vim.keymap.set("n", "zs", function()
   ufo.openFoldsExceptKinds({

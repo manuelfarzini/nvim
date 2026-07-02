@@ -11,11 +11,11 @@ vim.pack.add({
   "https://github.com/nvim-tree/nvim-web-devicons",
 
   --+ UI
-  -- "https://github.com/stevearc/dressing.nvim",
+  "https://github.com/stevearc/dressing.nvim",
   "https://github.com/folke/which-key.nvim",
   "https://github.com/nvim-lualine/lualine.nvim",
   "https://github.com/lukas-reineke/indent-blankline.nvim",
-  --+ "https://github.com/uga-rosa/ccc.nvim",
+  -- "https://github.com/uga-rosa/ccc.nvim",
 
   --+ Navigation / editing
   "https://github.com/folke/flash.nvim",
@@ -78,7 +78,7 @@ vim.pack.add({
 vim.cmd.colorscheme("theme")
 
 --+ UI
--- require("plugins.dressing")
+require("plugins.dressing")
 require("plugins.whichkey")
 require("plugins.lualine")
 require("plugins.blankline")

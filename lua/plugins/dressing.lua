@@ -1,21 +1,15 @@
--- XXX: try to remove this
-
 require("dressing").setup({
   input = {
     enabled = true,
     border = "rounded",
-    win_options = {
-      winblend = 0,
-    },
+    win_options = { winblend = 0, },
   },
   select = {
     enabled = true,
     backend = { "telescope", "builtin" },
     builtin = {
       border = "rounded",
-      win_options = {
-        winblend = 0,
-      },
+      win_options = { winblend = 0, },
     },
   },
 })
