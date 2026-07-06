@@ -219,6 +219,7 @@ local function setup()
     TodofgTEST = { fg = colors.error },
     TodoBgTEST = { fg = colors.zback, bg = colors.error, bold = true },
     TodoSignTEST = { fg = colors.error },
+    DiagnosticUnnecessary = {},
     --
 
     --+ Mason
@@ -232,10 +233,6 @@ local function setup()
     --+ Flash
     FlashBackdrop = { fg = colors.grey3, bg = "NONE" },
     FlashCurrent = { fg = colors.grey1, bg = "NONE" },
-    -- FlashCursor = { bg = "NONE" },
-    -- FlashLabel = { fg = colors., bg = "NONE" },
-    -- FlashMatch = { fg = colors., bg = "NONE" },
-    -- FlashPrompt = { fg = colors.grey2, bg = "NONE" },
     FlashPromptIcon = { fg = "NONE", bg = "NONE" },
     --
 

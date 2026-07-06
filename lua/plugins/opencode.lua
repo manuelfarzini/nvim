@@ -5,8 +5,6 @@ require("render-markdown").setup({
 
 require("opencode").setup({
   ui = {
-    output = {
-      filetype = "opencode_output",
-    },
+    output = { filetype = "opencode_output", },
   },
 })

@@ -30,7 +30,6 @@ vim.pack.add({
   "https://github.com/kevinhwang91/nvim-hlslens",
 
   -- Telescope ecosystem
-  "https://github.com/jvgrootveld/telescope-zoxide",
   "https://github.com/nvim-telescope/telescope.nvim",
 
   -- File tree

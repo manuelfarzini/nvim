@@ -1,6 +1,5 @@
 require("mason").setup({
   ui = {
-    border = "rounded",
     backdrop = 100,
     width = 0.85,
     height = 0.95,

@@ -1,14 +1,4 @@
 require("ibl").setup({
-  indent = {
-    char = "┊",
-    highlight = { "IndentLineColor" },
-    priority = 100,
-  },
-  scope = {
-    enabled = true,
-    highlight = { "IndentScopeLineColor" },
-    show_start = false,
-    show_end = false,
-    show_exact_scope = false,
-  },
+  indent = { char = "┊", highlight = { "IndentLineColor" }, priority = 500, },
+  scope = { highlight = { "IndentScopeLineColor" }, show_start = false, },
 })

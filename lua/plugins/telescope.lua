@@ -3,134 +3,54 @@ local actions = require("telescope.actions")
 
 telescope.setup({
   defaults = vim.tbl_extend("force", require("telescope.themes").get_dropdown(), {
-    borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
     prompt_prefix = "",
-    selection_caret = "→ ",
     path_display = { "smart" },
-
-    preview = {
-      treesitter = false,
-    },
-
-    color_devicons = false,
-    scroll_strategy = "cycle",
-    sorting_strategy = "ascending",
+    preview = { treesitter = false },
+    disable_devicons = true,
     layout_config = {
       center = {
         width = 0.8,
-        height = 0.5,
-        prompt_position = "top",
-        mirror = true,
         anchor = "N",
-        preview_cutoff = 25,
-        scroll_speed = 1,
       },
     },
-
     file_ignore_patterns = {
-      "node_modules/",
-      "%.git/",
-      "%.DS_Store",
-      "undodir/",
-      "zzz/",
-      "lazy%-lock%.json",
-      "build/",
-      "CMakeLists%.txt",
-      "media",
-      "run%.sh",
-      "gradle",
-      "%.cache",
-      "%.zip",
-      "%.class",
-      "venv",
-      "doxygen",
-      "Doxyfile",
-      "swapdir",
-      "extern",
+      "node_modules/", "%.git/", "%.DS_Store", "undodir/", "zzz/", "build/", "media",
+      "CMakeLists%.txt", "gradle", "%.cache", "%.zip", "%.class", "venv", "doxygen", "Doxyfile",
+      "swapdir", "extern",
     },
-
     mappings = {
       i = {
         ["<C-k>"] = actions.move_selection_previous,
         ["<C-j>"] = actions.move_selection_next,
-
         ["<M-k>"] = actions.preview_scrolling_up,
         ["<M-j>"] = actions.preview_scrolling_down,
-
         ["<Tab>"] = actions.toggle_selection + actions.move_selection_worse,
         ["<S-Tab>"] = actions.toggle_selection + actions.move_selection_better,
-        ["<Esc><Esc>"] = actions.close,
       },
     },
   }),
-
   pickers = {
-    live_grep = {
-      disable_devicons = true,
-      color_devicons = false,
-      hidden = true,
-      additional_args = { "--hidden" },
-    },
-
-    find_files = {
-      disable_devicons = true,
-      hidden = true,
-      follow = true,
-    },
-
-    oldfiles = {
-      disable_devicons = true,
-    },
-
-    grep_string = {
-      disable_devicons = true,
-      color_devicons = false,
-    },
-
+    live_grep = { hidden = true, additional_args = { "--hidden" }, },
+    find_files = { hidden = true, follow = true, },
     buffers = {
       ignore_current_buffer = true,
       sort_mru = true,
-      mappings = {
-        i = {
-          ["<M-c>"] = actions.delete_buffer,
-        },
-      },
-    },
-  },
-
-  extensions = {
-    zoxide = {
-      prompt_title = "Z Paths",
-      mappings = {
-        default = {
-          after_action = function(selection) print("Update to (" .. selection.z_score .. ") " .. selection.path) end,
-        },
-      },
+      mappings = { i = { ["<M-c>"] = actions.delete_buffer } },
     },
   },
 })
 
-telescope.load_extension("zoxide")
+vim.keymap.set("n", "<leader>ff", "<Cmd>Telescope find_files<CR>", { desc = "Find files in cwd" })
+vim.keymap.set("n", "<leader>fr", "<Cmd>Telescope oldfiles<CR>", { desc = "Find recent files" })
+vim.keymap.set("n", "<leader>fs", "<Cmd>Telescope live_grep<CR>", { desc = "Find string" })
+vim.keymap.set("n", "<leader>fu", "<Cmd>Telescope grep_string<CR>", { desc = "Find under" })
+vim.keymap.set("n", "<leader>fo", "<Cmd>Telescope buffers<CR>", { desc = "Find open buffers" })
+vim.keymap.set("n", "<leader>ft", "<Cmd>TodoTelescope<CR>", { desc = "Find todos" })
 
-local key = vim.keymap
+vim.keymap.set("n", "<leader>fC", function()
+  require("telescope.builtin").live_grep({ search_dirs = { vim.fn.expand("%:p") } })
+end, { desc = "Find string in current file" })
 
-key.set("n", "<leader>ff", "<Cmd>Telescope find_files<CR>", { desc = "Find files in cwd" })
-key.set("n", "<leader>fr", "<Cmd>Telescope oldfiles<CR>", { desc = "Find recent" })
-key.set("n", "<leader>fs", "<Cmd>Telescope live_grep<CR>", { desc = "Find string" })
-key.set("n", "<leader>fu", "<Cmd>Telescope grep_string<CR>", { desc = "Find under" })
-key.set("n", "<leader>fo", "<Cmd>Telescope buffers<CR>", { desc = "Find open buffers" })
-key.set("n", "<leader>ft", "<Cmd>TodoTelescope<CR>", { desc = "Find todos" })
-key.set("n", "<leader>fz", telescope.extensions.zoxide.list, { desc = "Zoxide Paths" })
-
-vim.api.nvim_create_user_command(
-  "GrepOpenFiles",
-  function() require("telescope.builtin").live_grep({ grep_open_files = true }) end,
-  { desc = "Find in opened files" }
-)
-
-key.set(
-  "n",
-  "<leader>fc",
-  "<Cmd>lua require('telescope.builtin').live_grep({ search_dirs = { vim.fn.expand('%:p') } })<CR>",
-  { desc = "Find string in current file" }
-)
+vim.keymap.set("n", "<leader>fO", function()
+  require("telescope.builtin").live_grep({ grep_open_files = true })
+end, { desc = "Find string in open files" })
