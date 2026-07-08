@@ -178,6 +178,9 @@ local function setup()
     ["@constant.mojo"] = { fg = colors.fore },
     ["@enum.mojo"] = { fg = colors.enum },
     ["@dtype.mojo"] = { fg = colors.dtype },
+    -- cpp
+    ["@keyword.operator.cpp"] = { link = "Keyword" },
+    --
 
     --+ Semantic
     -- common
@@ -187,6 +190,7 @@ local function setup()
     -- c++
     -- {} to highlight all preproc branches; dimmed color to snooze unactive ones
     ["@lsp.type.comment.cpp"] = {}, -- { fg = colors.grey4 },
+    ["@lsp.type.operator.cpp"] = {},
     ["@lsp.typemod.typeParameter.definition.cpp"] = { fg = colors.param },
     ["@lsp.typemod.typeParameter.functionScope.cpp"] = { fg = colors.param },
     ["@lsp.typemod.typeParameter.readonly.cpp"] = { fg = colors.param },

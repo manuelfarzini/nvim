@@ -9,7 +9,13 @@ vim.keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "No highlight" })
 vim.keymap.set("n", "gp", "`[v`]", { desc = "Select pasted" })
 vim.keymap.set("n", "<leader><leader>a", "ggVG", { desc = "Select all" })
 
-vim.api.nvim_set_keymap("n", "<leader>ut", "<Cmd>Undotree<CR>", { silent = true, desc = "Undotree toggle" })
+vim.keymap.set("n", "<leader>ut", "<Cmd>Undotree<CR>", { silent = true, desc = "Undotree toggle" })
+
+-- XXX: think about this
+-- vim.keymap.set("n", "H", "<C-u>zz")
+-- vim.keymap.set("n", "L", "<C-d>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
 
 vim.keymap.set("n", "<C-i>", "<C-o>")
 vim.keymap.set("n", "<C-o>", "<C-i>")
