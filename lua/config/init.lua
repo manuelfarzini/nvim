@@ -75,6 +75,9 @@ vim.pack.add({
 
 vim.cmd.colorscheme("theme")
 
+-- Undotree
+require("plugins.undotree")
+
 -- UI
 require("plugins.dressing")
 require("plugins.whichkey")
