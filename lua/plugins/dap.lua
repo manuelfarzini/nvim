@@ -114,25 +114,18 @@ dap.configurations.zig = dap.configurations.cpp
 
 -- Keymaps
 
-vim.keymap.set(
-  "n",
-  "<leader>b?",
-  function() dapui.eval(nil, { enter = true, silent = true }) end,
-  { silent = true, desc = "Dap inspect" }
-)
 vim.keymap.set("n", "<leader><leader>b", dap.toggle_breakpoint, { silent = true, desc = "Dap toggle breakpoint" })
 vim.keymap.set("n", "<leader>bc", dap.run_to_cursor, { silent = true, desc = "Dap run to cursor" })
 vim.keymap.set("n", "<leader>bt", function() dapui.toggle() end, { silent = true, desc = "Dap toggle ui" })
-vim.keymap.set(
-  "n",
-  "<leader>bC",
-  function() require("dap").repl.clear() end,
-  { silent = true, desc = "Dap clear REPL" }
-)
-
 vim.keymap.set("n", "<leader>bn", dap.continue, { silent = true, desc = "Dap next breakpoint" })
 vim.keymap.set("n", "[b", dap.step_into, { silent = true, desc = "Dap one step in" })
 vim.keymap.set("n", "]b", dap.step_over, { silent = true, desc = "Dap one step over" })
 vim.keymap.set("n", "]B", dap.step_out, { silent = true, desc = "Dap up to return" })
 vim.keymap.set("n", "<leader>br", dap.restart, { silent = true, desc = "Dap restart" })
 vim.keymap.set("n", "<leader>be", dap.terminate, { silent = true, desc = "Dap exit" })
+vim.keymap.set("n", "<leader>b?", function()
+  dapui.eval(nil, { enter = true, silent = true })
+end, { silent = true, desc = "Dap inspect" })
+vim.keymap.set("n", "<leader>bC", function()
+  require("dap").repl.clear()
+end, { silent = true, desc = "Dap clear REPL" })

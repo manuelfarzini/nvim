@@ -45,7 +45,7 @@ vim.opt.wrap = false
 vim.o.linebreak = false
 vim.opt.guicursor = ""
 -- Language specific
-local function set_indent(lang, tabstop, shiftwidth)
+local function set_tab_size(lang, tabstop, shiftwidth)
   vim.api.nvim_create_autocmd("FileType", {
     pattern = lang,
     callback = function()
@@ -54,21 +54,21 @@ local function set_indent(lang, tabstop, shiftwidth)
     end,
   })
 end
-set_indent("c", 2, 2)
-set_indent("cpp", 4, 4)
-set_indent("java", 2, 2)
-set_indent("lua", 2, 2)
-set_indent("sh", 2, 2)
-set_indent("json", 2, 2)
-set_indent("zig", 4, 4)
-set_indent("go", 2, 2)
-set_indent("html", 2, 2)
-set_indent("css", 2, 2)
-set_indent("c3", 4, 4)
-set_indent("py", 2, 2)
-set_indent("scm", 2, 2)
-set_indent("mojo", 4, 4)
-set_indent("scm", 2, 2)
+set_tab_size("c", 2, 2)
+set_tab_size("cpp", 4, 4)
+set_tab_size("java", 2, 2)
+set_tab_size("lua", 2, 2)
+set_tab_size("sh", 2, 2)
+set_tab_size("json", 2, 2)
+set_tab_size("zig", 4, 4)
+set_tab_size("go", 2, 2)
+set_tab_size("html", 2, 2)
+set_tab_size("css", 2, 2)
+set_tab_size("c3", 4, 4)
+set_tab_size("py", 2, 2)
+set_tab_size("scm", 2, 2)
+set_tab_size("mojo", 4, 4)
+set_tab_size("scm", 2, 2)
 --
 
 -- Hover
@@ -76,7 +76,6 @@ vim.o.winborder = "rounded"
 --
 
 -- Cursor
----@diagnostic disable-next-line: missing-fields
 vim.opt.guicursor = table.concat({
   "n-v-c:block",
   "i-ci:ver25",
@@ -109,18 +108,15 @@ vim.opt.timeout = true
 vim.opt.timeoutlen = 300
 --
 
--- Fillchars
----@diagnostic disable-next-line: missing-fields
-vim.opt.fillchars = {
-  vert = "│",
-  horiz = "─",
-  horizup = "┴",
-  horizdown = "┬",
-  vertleft = "┤",
-  vertright = "├",
-  verthoriz = "┼",
-}
-
--- Disable some plugin settings
+-- Disable plugin settings
 vim.fn.sign_unplace("UfoPreviewCursorLine")
 --
+
+-- Diagnostics
+vim.diagnostic.config({
+  float = { header = "", prefix = "", suffix = "",
+            max_width = math.floor(vim.o.columns * 0.8), max_height = math.floor(vim.o.lines * 0.4),
+            format = function(diagnostic) return string.format(" %s \n", diagnostic.message) end, },
+})
+--
+

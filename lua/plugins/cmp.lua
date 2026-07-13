@@ -5,20 +5,17 @@ cmp.setup({
     completion = cmp.config.window.bordered({ border = "rounded" }),
     documentation = cmp.config.window.bordered({ border = "rounded" }),
   },
-  completion = {
-    completeopt = "menu,menuone,noselect",
-  },
-  snippet = {
-    expand = function(_) end,
-  },
+  completion = { completeopt = "menu,menuone,noselect", },
+  snippet = { expand = function(_) end, },
   mapping = cmp.mapping.preset.insert({
     ["<M-k>"] = cmp.mapping.select_prev_item(),
     ["<M-j>"] = cmp.mapping.select_next_item(),
-    ["<M-Space>"] = cmp.mapping(function()
+    ["<CR>"] = cmp.mapping.confirm({ select = false }),
+    ["<M-Space>"] = cmp.mapping(
+      function()
         if cmp.visible() then cmp.abort()
         else cmp.complete() end
-    end),
-    ["<CR>"] = cmp.mapping.confirm({ select = false }),
+      end),
   }),
 
   sources = cmp.config.sources({

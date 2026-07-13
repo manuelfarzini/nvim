@@ -29,7 +29,7 @@ vim.pack.add({
   "https://github.com/folke/todo-comments.nvim",
   "https://github.com/kevinhwang91/nvim-hlslens",
 
-  -- Telescope ecosystem
+  -- Telescope
   "https://github.com/nvim-telescope/telescope.nvim",
 
   -- File tree

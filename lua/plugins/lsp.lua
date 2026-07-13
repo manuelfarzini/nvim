@@ -16,59 +16,15 @@ vim.api.nvim_create_autocmd("LspAttach", {
     }
     if disabled[client.name] then client.server_capabilities.semanticTokensProvider = nil end
 
-    -- Diagnostics format
-    -- WARN: this solution may be fragile
-    local code_persistent = ""
-    vim.diagnostic.config({
-      float = {
-        border = "rounded",
-        source = "if_many",
-        header = "",
-        max_width = 60,
-        wrap = true,
-        severity_sort = true,
-        format = function(diagnostic)
-          code_persistent = diagnostic.code or code_persistent
-          diagnostic.code = nil
-          return string.format("%s [%s]\n", diagnostic.message, code_persistent)
-        end,
-      },
-    })
-
     -- Keymaps
-
-    local opts = { buffer = ev.buf, silent = true }
-
-    opts.desc = "Restart LSP"
-    vim.keymap.set("n", "<leader>lr", "<Cmd>lsp restart<CR>", opts)
-
-    opts.desc = "Go to definition"
-    vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-
-    opts.desc = "Telescope LSP definitions"
-    vim.keymap.set("n", "gD", "<Cmd>Telescope lsp_definitions<CR>", opts)
-
-    opts.desc = "Show LSP references"
-    vim.keymap.set("n", "gR", "<Cmd>Telescope lsp_references<CR>", opts)
-
-    opts.desc = "Telescope LSP type definitions"
-    vim.keymap.set("n", "gT", "<Cmd>Telescope lsp_type_definitions<CR>", opts)
-
-    vim.keymap.set("n", "<leader>d", function()
-      vim.diagnostic.open_float({
-        scope = "line",
-        border = "rounded",
-        source = "always",
-        max_width = math.floor(vim.o.columns * 0.8),
-        max_height = math.floor(vim.o.lines * 0.4),
-      })
-    end, opts)
-
-    opts.desc = "Previous diagnostic"
-    vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, opts)
-
-    opts.desc = "Next diagnostic"
-    vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, opts)
+    local opts = function(desc) return { buffer = ev.buf, silent = true, desc = desc } end
+    vim.keymap.set("n", "<leader>lr", "<Cmd>lsp restart<CR>", opts("Lsp restart"))
+    vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts("Goto definition") )
+    vim.keymap.set("n", "gD", "<Cmd>Telescope lsp_definitions<CR>", opts("Telescopedefinitions"))
+    vim.keymap.set("n", "gR", "<Cmd>Telescope lsp_references<CR>", opts("Telescopereferences"))
+    vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts("Opendiagnostic"))
+    vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, opts("Previousdiagnostic"))
+    vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, opts("Next diagnostic"))
   end,
 })
 
@@ -223,8 +179,8 @@ vim.lsp.config("intelephense", {
   },
 })
 
-vim.lsp.enable({ "clangd", "ols", "lua_ls", "faustlsp", "mojo", "rust_analyzer" })
--- "zls", "pyright", "jdtls", "gopls", "bashls", "matlab_ls",
+vim.lsp.enable({ "clangd", "ols", "lua_ls", "faustlsp", "mojo", "rust_analyzer", "jdtls" })
+-- "zls", "pyright", "gopls", "bashls", "matlab_ls",
 -- "emmet_ls", "intelephense",
 
 -- stylua: ignore end
