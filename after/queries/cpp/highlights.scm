@@ -20,7 +20,7 @@
 
 ((field_identifier) @qualifier
   (#any-of? @qualifier
-   "predicate"
+   "propositio"
   )
   (#set! "priority" 128))
 
@@ -28,7 +28,7 @@
   (#any-of? @qualifier
     "cast"
     "implicit"
-    "predicate" 
+    "propositio" 
     "PlainT"
   )
   (#set! "priority" 128))
@@ -36,7 +36,7 @@
 ((identifier) @qualifier
   (#any-of? @qualifier
     "cast"
-    "predicate" 
+    "propositio" 
   )
   (#set! "priority" 128))
 

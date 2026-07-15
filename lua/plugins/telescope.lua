@@ -8,8 +8,8 @@ telescope.setup({
     disable_devicons = true,
     layout_config = { center = { width = 0.8, anchor = "N", }, },
     file_ignore_patterns = {
-      "node_modules/", "%.git/", "%.DS_Store", "undodir/", "zzz/", "build/", "media", "doxygen", "swapdir",
-      "CMakeLists%.txt", "gradle", "%.cache", "%.zip", "%.class", "venv", "Doxyfile", "extern",
+      "node_modules", "%.git", "%.DS_Store", "undodir", "zzz", "build", "media", "doxygen", "swapdir",
+      "CMakeLists%.txt", "gradle", "%.cache", "%.zip", "%.class", "venv", "Doxyfile", "extern", "pixi"
     },
     mappings = {
       i = {
