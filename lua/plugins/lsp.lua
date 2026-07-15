@@ -20,10 +20,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
     local opts = function(desc) return { buffer = ev.buf, silent = true, desc = desc } end
     vim.keymap.set("n", "<leader>lr", "<Cmd>lsp restart<CR>", opts("Lsp restart"))
     vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts("Goto definition") )
-    vim.keymap.set("n", "gD", "<Cmd>Telescope lsp_definitions<CR>", opts("Telescopedefinitions"))
-    vim.keymap.set("n", "gR", "<Cmd>Telescope lsp_references<CR>", opts("Telescopereferences"))
-    vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts("Opendiagnostic"))
-    vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, opts("Previousdiagnostic"))
+    vim.keymap.set("n", "gD", "<Cmd>Telescope lsp_definitions<CR>", opts("Telescope lsp definitions"))
+    vim.keymap.set("n", "gR", "<Cmd>Telescope lsp_references<CR>", opts("Telescope lsp references"))
+    vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts("Open diagnostic"))
+    vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, opts("Prev diagnostic"))
     vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, opts("Next diagnostic"))
   end,
 })
