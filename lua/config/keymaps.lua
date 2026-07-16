@@ -80,6 +80,30 @@ vim.keymap.set("v", "<leader>d", delete_to_plus__preserve_quote_and_zero_regs__v
 })
 --
 
+-- Terminal XXX: to be improved
+local term
+
+vim.keymap.set("n", "<leader>t", function()
+  local win = term and vim.api.nvim_buf_is_valid(term) and vim.fn.bufwinid(term) or -1
+
+  if win ~= -1 then
+    vim.api.nvim_set_current_win(win)
+  else
+    vim.cmd("botright 12split")
+    if term and vim.api.nvim_buf_is_valid(term) then
+      vim.api.nvim_set_current_buf(term)
+    else
+      vim.cmd.terminal()
+      term = vim.api.nvim_get_current_buf()
+    end
+  end
+
+  vim.cmd.startinsert()
+end, { desc = "Toggle terminal" })
+
+vim.keymap.set("t", "<Esc><Esc>", [[<C-\><C-n>]], { desc = "Exit terminal mode", })
+--
+
 -- Snippets
 vim.keymap.set( "n", "<leader>id",
   "o/*<Esc>a<Space><Esc>40.a*<Esc>o*<Esc>o*/<Esc>0xkxli<Space><Esc>lR",
