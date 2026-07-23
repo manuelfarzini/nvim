@@ -119,4 +119,3 @@ vim.diagnostic.config({
             format = function(diagnostic) return string.format(" %s \n", diagnostic.message) end, },
 })
 --
-
