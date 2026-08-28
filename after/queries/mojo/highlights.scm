@@ -43,6 +43,13 @@
 ((argument_convention) @keyword
  (#set! priority 100))
 
+((identifier) @keyword
+  (#any-of? @keyword
+   "imm"
+  )
+  (#set! "priority" 128))
+
+
 ; Builtin functions
 
 ((call
