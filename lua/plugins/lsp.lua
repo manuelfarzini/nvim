@@ -71,7 +71,7 @@ vim.lsp.config("clangd", {
     "--background-index",
     "-j=12",
     "--pretty",
-    "--query-driver=/opt/homebrew/opt/llvm/bin/clang++", -- /usr/bin/clang++"
+    "--query-driver=/usr/bin/clang++", -- /opt/homebrew/opt/llvm/bin/clang++
     "--header-insertion=iwyu",
     "--completion-style=detailed",
     "--pch-storage=memory",
