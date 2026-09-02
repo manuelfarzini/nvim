@@ -11,3 +11,7 @@ require("vim._core.ui2").enable({
 })
 require("config")
 require("symbols")
+
+vim.api.nvim_create_user_command('PackUpdate', function()
+  vim.pack.update()
+end, {})
