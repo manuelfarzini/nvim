@@ -18,6 +18,10 @@
   (#match? @variable "^_*[a-z0-9_]*$")
   (#set! priority 101))
 
+; ((ERROR) @decorator
+;   (#match? @decorator "^[@][a-z_]+$")
+;   (#set! priority 101))
+
 (decorator) @decorator
 (decorator
   (identifier) @decorator
@@ -44,11 +48,8 @@
  (#set! priority 100))
 
 ((identifier) @keyword
-  (#any-of? @keyword
-   "imm"
-  )
+  (#any-of? @keyword "imm" "mut" "var" "ref" "out")
   (#set! "priority" 128))
-
 
 ; Builtin functions
 
