@@ -73,6 +73,7 @@
     "comp"
     "declt"
     "fn"
+    "func"
     "glob"
     "priv"
     "onedef"
