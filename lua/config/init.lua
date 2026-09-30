@@ -64,7 +64,7 @@ vim.cmd.colorscheme("theme")
 require("plugins.undotree")
 
 require("plugins.dressing")
-require("plugins.whichkey")
+-- require("plugins.whichkey")
 require("plugins.lualine")
 require("plugins.blankline")
 -- require("plugins.ccc")
